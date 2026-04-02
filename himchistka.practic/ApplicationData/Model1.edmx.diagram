@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d29db0d7cdab47a8807c85400f7e637b" Name="Diagram1">
+        <EntityTypeShape EntityType="CleanersDBModel.Branches" Width="1.5" PointX="7.5" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Cities" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.ClientDiscounts" Width="1.5" PointX="7.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Clients" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Countries" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Discounts" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Employees" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Equipment" Width="1.5" PointX="9.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.MaintenanceLog" Width="1.5" PointX="12" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Materials" Width="1.5" PointX="7.5" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.OrderItems" Width="1.5" PointX="12" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Orders" Width="1.5" PointX="9.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.OrderServices" Width="1.5" PointX="15" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.OrderStages" Width="1.5" PointX="15" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.PricingRules" Width="1.5" PointX="15" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Receipts" Width="1.5" PointX="15" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Services" Width="1.5" PointX="12.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CleanersDBModel.Suppliers" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
+        <AssociationConnector Association="CleanersDBModel.FK__Branches__CityID__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Branches__Manage__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Equipment__Branc__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Orders__BranchID__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Cities__CountryI__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Clients__CityID__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Employees__CityI__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Suppliers__CityI__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__ClientDis__Clien__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__ClientDis__Disco__151B244E" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Orders__ClientID__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Orders__Employee__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__OrderStag__Emplo__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Receipts__Cashie__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Maintenan__Equip__07C12930" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Materials__Suppl__00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__OrderItem__Order__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__OrderServ__Order__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__OrderStag__Order__17F790F9" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__Receipts__OrderI__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__OrderServ__Servi__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="CleanersDBModel.FK__PricingRu__Servi__0B91BA14" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
