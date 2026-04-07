@@ -82,13 +82,17 @@
             </Border>
 
             <StackPanel Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 6">
+                    <Button x:Name="PreviousTabButton" Content="◀" Width="32" Height="30" Margin="0 0 6 0" Click="PreviousTabButton_Click" ToolTip="Предыдущая вкладка"/>
+                    <Button x:Name="NextTabButton" Content="▶" Width="32" Height="30" Click="NextTabButton_Click" ToolTip="Следующая вкладка"/>
+                </StackPanel>
                 <Button x:Name="AddOrderButton" Content="Добавить" Height="30" Margin="0 0 0 6" Click="AddOrderButton_Click"/>
                 <Button x:Name="EditOrderButton" Content="Редактировать" Height="30" Margin="0 0 0 6" Click="EditOrderButton_Click"/>
                 <Button x:Name="DeleteOrderButton" Content="Удалить" Height="30" Click="DeleteOrderButton_Click"/>
             </StackPanel>
         </Grid>
 
-        <TabControl Grid.Row="2" x:Name="TablesTabControl">
+        <TabControl Grid.Row="2" x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged">
             <TabItem Header="Общая таблица заказов" x:Name="OrdersTab">
                 <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
                     <DataGrid.Columns>
