@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="himchistka.practic/Cleaners.csproj" />
+  <Project Path="Cleaners.Tests/Cleaners.Tests.csproj" />
 </Solution>

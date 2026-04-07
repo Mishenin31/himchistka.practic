@@ -3,10 +3,138 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:himchistka.practic"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Химчистка FreshClean" MinHeight="650" MinWidth="1000" Height="720" Width="1200"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Padding="12" Margin="0 0 0 10" CornerRadius="8" Background="#F2F6FF" BorderBrush="#D8E2FF" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="FreshClean — информационная система химчистки" FontSize="20" FontWeight="SemiBold"/>
+                    <TextBlock Text="Авторизация, роли, фильтрация/сортировка/поиск и операции с заказами" Margin="0 4 0 0" Foreground="#4A5568"/>
+                </StackPanel>
+
+                <Border Grid.Column="1" Width="88" Height="88" CornerRadius="44" BorderThickness="2" BorderBrush="#5B7CFA" Background="#E9EEFF" VerticalAlignment="Center">
+                    <TextBlock Text="🧺" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Авторизация" Margin="0 0 8 0">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="LoginTextBox" Margin="0 0 0 6" Height="28" VerticalContentAlignment="Center" ToolTip="Логин"/>
+                    <PasswordBox x:Name="PasswordBox" Grid.Row="1" Margin="0 0 0 6" Height="28" ToolTip="Пароль"/>
+                    <Button Grid.Row="2" x:Name="SignInButton" Content="Войти" Height="30" Click="SignInButton_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Регистрация" Grid.Column="1" Margin="0 0 8 0">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="RegisterNameTextBox" Margin="0 0 0 6" Height="28" VerticalContentAlignment="Center" ToolTip="ФИО"/>
+                    <TextBox x:Name="RegisterLoginTextBox" Grid.Row="1" Margin="0 0 0 6" Height="28" VerticalContentAlignment="Center" ToolTip="Логин"/>
+                    <PasswordBox x:Name="RegisterPasswordBox" Grid.Row="2" Margin="0 0 0 6" Height="28" ToolTip="Пароль"/>
+                    <ComboBox x:Name="RegisterRoleComboBox" Grid.Row="3" Margin="0 0 0 6" Height="28" SelectedIndex="0">
+                        <ComboBoxItem Content="User"/>
+                        <ComboBoxItem Content="Manager"/>
+                        <ComboBoxItem Content="Admin"/>
+                    </ComboBox>
+                    <Button Grid.Row="4" x:Name="RegisterButton" Content="Зарегистрировать" Height="30" Click="RegisterButton_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Работа с общей таблицей" Grid.Column="2" Margin="0 0 8 0">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox x:Name="SearchTextBox" Margin="0 0 0 6" Height="28" VerticalContentAlignment="Center" ToolTip="Поиск" TextChanged="SearchTextBox_TextChanged"/>
+                    <ComboBox x:Name="StatusFilterComboBox" Grid.Row="1" Margin="0 0 0 6" Height="28" SelectionChanged="StatusFilterComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Все статусы" IsSelected="True"/>
+                        <ComboBoxItem Content="Новый"/>
+                        <ComboBoxItem Content="В работе"/>
+                        <ComboBoxItem Content="Готов"/>
+                        <ComboBoxItem Content="Выдан"/>
+                    </ComboBox>
+                    <ComboBox x:Name="SortComboBox" Grid.Row="2" Height="28" SelectionChanged="SortComboBox_SelectionChanged">
+                        <ComboBoxItem Content="По дате (новые сначала)" IsSelected="True"/>
+                        <ComboBoxItem Content="По цене (возрастание)"/>
+                        <ComboBoxItem Content="По цене (убывание)"/>
+                        <ComboBoxItem Content="По клиенту (А-Я)"/>
+                    </ComboBox>
+                </Grid>
+            </GroupBox>
+
+            <StackPanel Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Текущая роль:" FontWeight="SemiBold"/>
+                <TextBlock x:Name="CurrentRoleTextBlock" Text="Не авторизован" Margin="0 4 0 8"/>
+                <Button x:Name="AddOrderButton" Content="Добавить" Height="30" Margin="0 0 0 6" Click="AddOrderButton_Click"/>
+                <Button x:Name="EditOrderButton" Content="Редактировать" Height="30" Margin="0 0 0 6" Click="EditOrderButton_Click"/>
+                <Button x:Name="DeleteOrderButton" Content="Удалить" Height="30" Click="DeleteOrderButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <TabControl Grid.Row="2" x:Name="TablesTabControl">
+            <TabItem Header="Общая таблица заказов" x:Name="OrdersTab">
+                <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                        <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
+                        <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
+                        <DataGridTextColumn Header="Дата приема" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy}" Width="140"/>
+                        <DataGridTextColumn Header="Стоимость" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
+                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="130"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Таблица клиентов" x:Name="ClientsTab">
+                <DataGrid x:Name="ClientsDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                        <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="200"/>
+                        <DataGridTextColumn Header="Лояльность" Binding="{Binding LoyaltyLevel}" Width="160"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <StatusBar Grid.Row="3" Margin="0 10 0 0">
+            <TextBlock x:Name="StatusMessageTextBlock" Text="Заполните поля и выполните вход."/>
+        </StatusBar>
     </Grid>
 </Window>
