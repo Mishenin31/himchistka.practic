@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -9,16 +9,22 @@ namespace himchistka.practic
 {
     public partial class MainWindow : Window
     {
-        private readonly AuthService _authService = new AuthService();
         private readonly OrderRepository _repository = new OrderRepository();
-        private UserAccount _currentUser;
+        private readonly UserAccount _currentUser;
         private ICollectionView _ordersView;
 
         public MainWindow()
+            : this(null)
         {
+        }
+
+        public MainWindow(UserAccount currentUser)
+        {
+            _currentUser = currentUser;
             InitializeComponent();
             InitializeData();
             ApplyPermissions();
+            SetStatus($"Авторизация выполнена: {_currentUser?.FullName ?? "гость"}.", false);
         }
 
         private void InitializeData()
@@ -27,42 +33,6 @@ namespace himchistka.practic
             ClientsDataGrid.ItemsSource = _repository.Clients;
             _ordersView = CollectionViewSource.GetDefaultView(OrdersDataGrid.ItemsSource);
             _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
-        }
-
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var user = _authService.Login(LoginTextBox.Text, PasswordBox.Password);
-                if (user == null)
-                {
-                    SetStatus("Ошибка: неверный логин или пароль.", true);
-                    return;
-                }
-
-                _currentUser = user;
-                CurrentRoleTextBlock.Text = $"{user.Role} ({user.FullName})";
-                ApplyPermissions();
-                SetStatus("Вход выполнен успешно.", false);
-            }
-            catch (Exception ex)
-            {
-                SetStatus($"Ошибка авторизации: {ex.Message}", true);
-            }
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var role = ParseRole((RegisterRoleComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString());
-                _authService.Register(RegisterNameTextBox.Text, RegisterLoginTextBox.Text, RegisterPasswordBox.Password, role);
-                SetStatus("Регистрация выполнена успешно. Теперь выполните вход.", false);
-            }
-            catch (Exception ex)
-            {
-                SetStatus($"Ошибка регистрации: {ex.Message}", true);
-            }
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -227,10 +197,9 @@ namespace himchistka.practic
             SortComboBox.IsEnabled = isAdmin || isManager || isUser;
             StatusFilterComboBox.IsEnabled = isAdmin || isManager || isUser;
 
-            if (_currentUser == null)
-            {
-                CurrentRoleTextBlock.Text = "Не авторизован";
-            }
+            CurrentRoleTextBlock.Text = _currentUser == null
+                ? "Не авторизован"
+                : $"{_currentUser.Role} ({_currentUser.FullName})";
         }
 
         private bool CanAdd()
@@ -246,12 +215,6 @@ namespace himchistka.practic
         private bool CanDelete()
         {
             return _currentUser != null && _currentUser.Role == UserRole.Admin;
-        }
-
-        private static UserRole ParseRole(string roleText)
-        {
-            UserRole role;
-            return Enum.TryParse(roleText, out role) ? role : UserRole.User;
         }
 
         private void SetStatus(string message, bool isError)
