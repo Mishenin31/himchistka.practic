@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -11,6 +12,8 @@ namespace himchistka.practic
     {
         private readonly OrderRepository _repository = new OrderRepository();
         private readonly UserAccount _currentUser;
+        private readonly List<TabItem> _serviceTabs = new List<TabItem>();
+        private readonly Dictionary<string, ICollectionView> _serviceOrderViews = new Dictionary<string, ICollectionView>();
         private ICollectionView _ordersView;
 
         public MainWindow()
@@ -30,13 +33,14 @@ namespace himchistka.practic
 
         private void InitializeData()
         {
-            OrdersDataGrid.ItemsSource = _repository.Orders;
+            _ordersView = new ListCollectionView(_repository.Orders);
+            OrdersDataGrid.ItemsSource = _ordersView;
             ClientsDataGrid.ItemsSource = _repository.Clients;
             ServicesCatalogDataGrid.ItemsSource = _repository.ServicesCatalog;
-            _ordersView = CollectionViewSource.GetDefaultView(OrdersDataGrid.ItemsSource);
-            _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
-            UpdateDashboard();
-            UpdateStatistics();
+
+            BuildServiceTabs();
+            ApplySorting();
+            RefreshView();
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -192,25 +196,17 @@ namespace himchistka.practic
 
         private void RefreshView()
         {
-            _ordersView.Filter = x =>
-            {
-                var item = x as OrderRecord;
-                if (item == null)
-                {
-                    return false;
-                }
-
-                var statusFilter = (StatusFilterComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Все статусы";
-                var search = SearchTextBox.Text?.Trim() ?? string.Empty;
-
-                var statusOk = statusFilter == "Все статусы" || item.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase);
-                var searchOk = string.IsNullOrWhiteSpace(search)
-                               || item.ClientFullName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
-                               || item.ServiceName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
-                return statusOk && searchOk;
-            };
-
+            _ordersView.Filter = x => MatchesFilters(x as OrderRecord);
             _ordersView.Refresh();
+
+            foreach (var pair in _serviceOrderViews)
+            {
+                var serviceName = pair.Key;
+                var view = pair.Value;
+                view.Filter = x => MatchesFilters(x as OrderRecord, serviceName);
+                view.Refresh();
+            }
+
             UpdateDashboard();
             UpdateStatistics();
         }
@@ -222,24 +218,106 @@ namespace himchistka.practic
                 return;
             }
 
-            _ordersView.SortDescriptions.Clear();
+            ApplySortingToView(_ordersView);
+            foreach (var view in _serviceOrderViews.Values)
+            {
+                ApplySortingToView(view);
+            }
+        }
+
+
+        private void BuildServiceTabs()
+        {
+            foreach (var tab in _serviceTabs)
+            {
+                TablesTabControl.Items.Remove(tab);
+            }
+
+            _serviceTabs.Clear();
+            _serviceOrderViews.Clear();
+
+            var insertionIndex = TablesTabControl.Items.IndexOf(ServicesCatalogTab) + 1;
+
+            foreach (var service in _repository.ServicesCatalog.OrderBy(x => x.Name))
+            {
+                var serviceView = new ListCollectionView(_repository.Orders);
+                serviceView.Filter = x => MatchesFilters(x as OrderRecord, service.Name);
+                ApplySortingToView(serviceView);
+                _serviceOrderViews[service.Name] = serviceView;
+
+                var serviceDataGrid = new DataGrid
+                {
+                    AutoGenerateColumns = false,
+                    Margin = new Thickness(0, 8, 0, 0),
+                    IsReadOnly = true,
+                    SelectionMode = DataGridSelectionMode.Single,
+                    SelectionUnit = DataGridSelectionUnit.FullRow,
+                    ItemsSource = serviceView
+                };
+
+                serviceDataGrid.Columns.Add(new DataGridTextColumn { Header = "ID", Binding = new Binding(nameof(OrderRecord.Id)), Width = new DataGridLength(70) });
+                serviceDataGrid.Columns.Add(new DataGridTextColumn { Header = "Клиент", Binding = new Binding(nameof(OrderRecord.ClientFullName)), Width = new DataGridLength(1, DataGridLengthUnitType.Star) });
+                serviceDataGrid.Columns.Add(new DataGridTextColumn { Header = "Дата приема", Binding = new Binding(nameof(OrderRecord.DateReceived)) { StringFormat = "dd.MM.yyyy" }, Width = new DataGridLength(140) });
+                serviceDataGrid.Columns.Add(new DataGridTextColumn { Header = "Стоимость", Binding = new Binding(nameof(OrderRecord.TotalPrice)) { StringFormat = "N0" }, Width = new DataGridLength(120) });
+                serviceDataGrid.Columns.Add(new DataGridTextColumn { Header = "Статус", Binding = new Binding(nameof(OrderRecord.Status)), Width = new DataGridLength(130) });
+
+                var serviceTab = new TabItem
+                {
+                    Header = service.Name,
+                    Content = serviceDataGrid
+                };
+
+                _serviceTabs.Add(serviceTab);
+                TablesTabControl.Items.Insert(insertionIndex++, serviceTab);
+            }
+
+            UpdateTabNavigationButtons();
+        }
+
+        private bool MatchesFilters(OrderRecord item, string serviceName = null)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            var statusFilter = (StatusFilterComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Все статусы";
+            var search = SearchTextBox.Text?.Trim() ?? string.Empty;
+
+            var statusOk = statusFilter == "Все статусы" || item.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase);
+            var searchOk = string.IsNullOrWhiteSpace(search)
+                           || item.ClientFullName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
+                           || item.ServiceName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
+            var serviceOk = string.IsNullOrEmpty(serviceName) || item.ServiceName.Equals(serviceName, StringComparison.OrdinalIgnoreCase);
+
+            return statusOk && searchOk && serviceOk;
+        }
+
+        private void ApplySortingToView(ICollectionView view)
+        {
+            if (view == null)
+            {
+                return;
+            }
+
+            view.SortDescriptions.Clear();
             var selected = (SortComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
 
             if (selected.Contains("возрастание"))
             {
-                _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.TotalPrice), ListSortDirection.Ascending));
+                view.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.TotalPrice), ListSortDirection.Ascending));
             }
             else if (selected.Contains("убывание"))
             {
-                _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.TotalPrice), ListSortDirection.Descending));
+                view.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.TotalPrice), ListSortDirection.Descending));
             }
             else if (selected.Contains("клиенту"))
             {
-                _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.ClientFullName), ListSortDirection.Ascending));
+                view.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.ClientFullName), ListSortDirection.Ascending));
             }
             else
             {
-                _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
+                view.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
             }
         }
 
