@@ -32,6 +32,7 @@ namespace himchistka.practic
         {
             OrdersDataGrid.ItemsSource = _repository.Orders;
             ClientsDataGrid.ItemsSource = _repository.Clients;
+            ServicesCatalogDataGrid.ItemsSource = _repository.ServicesCatalog;
             _ordersView = CollectionViewSource.GetDefaultView(OrdersDataGrid.ItemsSource);
             _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
             UpdateDashboard();

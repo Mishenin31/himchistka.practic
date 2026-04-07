@@ -24,6 +24,15 @@ namespace himchistka.practic
             new ClientRecord { Id = 3, FullName = "Сидоров П.П.", Phone = "+7 (999) 888-77-66", LoyaltyLevel = "Стандарт" }
         };
 
+        public ObservableCollection<ServiceCatalogRecord> ServicesCatalog { get; } = new ObservableCollection<ServiceCatalogRecord>
+        {
+            new ServiceCatalogRecord { Id = 1, Name = "Химчистка пальто", Category = "Верхняя одежда", Duration = "2-3 дня", BasePrice = 2500 },
+            new ServiceCatalogRecord { Id = 2, Name = "Химчистка платья", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2700 },
+            new ServiceCatalogRecord { Id = 3, Name = "Чистка костюма", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2300 },
+            new ServiceCatalogRecord { Id = 4, Name = "Чистка ковра", Category = "Домашний текстиль", Duration = "3-5 дней", BasePrice = 3200 },
+            new ServiceCatalogRecord { Id = 5, Name = "Удаление пятен", Category = "Дополнительная услуга", Duration = "до 1 дня", BasePrice = 1800 }
+        };
+
         public OrderRecord AddOrder(OrderRecord source)
         {
             var order = new OrderRecord
