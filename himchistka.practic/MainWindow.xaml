@@ -117,6 +117,18 @@
                 </DataGrid>
             </TabItem>
 
+            <TabItem Header="Каталог услуг" x:Name="ServicesCatalogTab">
+                <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                        <DataGridTextColumn Header="Услуга" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="220"/>
+                        <DataGridTextColumn Header="Срок выполнения" Binding="{Binding Duration}" Width="170"/>
+                        <DataGridTextColumn Header="Базовая цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="140"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
             <TabItem Header="Статистика" x:Name="StatisticsTab">
                 <Grid Margin="12">
                     <Grid.ColumnDefinitions>

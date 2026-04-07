@@ -34,4 +34,13 @@ namespace himchistka.practic
         public string Phone { get; set; }
         public string LoyaltyLevel { get; set; }
     }
+
+    public sealed class ServiceCatalogRecord
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Duration { get; set; }
+        public decimal BasePrice { get; set; }
+    }
 }
