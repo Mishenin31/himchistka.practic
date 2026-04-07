@@ -130,6 +130,21 @@ namespace himchistka.practic
             SetStatus("Запись удалена.", false);
         }
 
+        private void PreviousTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateTab(-1);
+        }
+
+        private void NextTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateTab(1);
+        }
+
+        private void TablesTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateTabNavigationButtons();
+        }
+
         private void RefreshView()
         {
             _ordersView.Filter = x =>
@@ -200,6 +215,53 @@ namespace himchistka.practic
             CurrentRoleTextBlock.Text = _currentUser == null
                 ? "Не авторизован"
                 : $"{_currentUser.Role} ({_currentUser.FullName})";
+
+            UpdateTabNavigationButtons();
+        }
+
+        private void NavigateTab(int direction)
+        {
+            if (TablesTabControl == null)
+            {
+                return;
+            }
+
+            var visibleTabs = TablesTabControl.Items
+                .OfType<TabItem>()
+                .Where(tab => tab.Visibility == Visibility.Visible)
+                .ToList();
+
+            if (visibleTabs.Count <= 1)
+            {
+                return;
+            }
+
+            var selectedTab = TablesTabControl.SelectedItem as TabItem;
+            var currentIndex = visibleTabs.IndexOf(selectedTab);
+            if (currentIndex < 0)
+            {
+                currentIndex = 0;
+            }
+
+            var targetIndex = (currentIndex + direction + visibleTabs.Count) % visibleTabs.Count;
+            TablesTabControl.SelectedItem = visibleTabs[targetIndex];
+            UpdateTabNavigationButtons();
+        }
+
+        private void UpdateTabNavigationButtons()
+        {
+            if (TablesTabControl == null)
+            {
+                return;
+            }
+
+            var visibleTabsCount = TablesTabControl.Items
+                .OfType<TabItem>()
+                .Count(tab => tab.Visibility == Visibility.Visible);
+
+            var canNavigate = visibleTabsCount > 1;
+            PreviousTabButton.IsEnabled = canNavigate;
+            NextTabButton.IsEnabled = canNavigate;
         }
 
         private bool CanAdd()
