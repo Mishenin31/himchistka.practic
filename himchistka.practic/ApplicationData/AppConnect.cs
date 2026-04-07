@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 
-namespace Cleaners.ApplicationData
+namespace himchistka.practic.ApplicationData
 {
     public static class AppConnect
     {
-        private static PasswordHelper _model01;
+        private static CleanersDBEntities _model01;
 
-        public static PasswordHelper model01
+        public static CleanersDBEntities model01
         {
             get
             {
@@ -16,7 +15,7 @@ namespace Cleaners.ApplicationData
                 {
                     try
                     {
-                        _model01 = new PasswordHelper();
+                        _model01 = new CleanersDBEntities();
                     }
                     catch (Exception ex)
                     {
@@ -24,6 +23,7 @@ namespace Cleaners.ApplicationData
                             "Ошибка подключения", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
+
                 return _model01;
             }
         }
@@ -44,7 +44,11 @@ namespace Cleaners.ApplicationData
 
         public static bool IsUserInRole(string role)
         {
-            if (CurrentUser == null) return false;
+            if (CurrentUser == null)
+            {
+                return false;
+            }
+
             return CurrentUser.Role == role;
         }
 
