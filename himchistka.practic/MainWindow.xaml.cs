@@ -23,6 +23,7 @@ namespace himchistka.practic
             _currentUser = currentUser;
             InitializeComponent();
             InitializeData();
+            FillProfileData();
             ApplyPermissions();
             SetStatus($"Авторизация выполнена: {_currentUser?.FullName ?? "гость"}.", false);
         }
@@ -33,6 +34,8 @@ namespace himchistka.practic
             ClientsDataGrid.ItemsSource = _repository.Clients;
             _ordersView = CollectionViewSource.GetDefaultView(OrdersDataGrid.ItemsSource);
             _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
+            UpdateDashboard();
+            UpdateStatistics();
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -86,6 +89,8 @@ namespace himchistka.practic
 
             _repository.AddOrder(newOrder);
             RefreshView();
+            UpdateDashboard();
+            UpdateStatistics();
             SetStatus("Новая запись добавлена.", false);
         }
 
@@ -107,6 +112,8 @@ namespace himchistka.practic
             selected.Status = selected.Status == "Готов" ? "В работе" : "Готов";
             selected.TotalPrice += 100;
             RefreshView();
+            UpdateDashboard();
+            UpdateStatistics();
             SetStatus("Запись обновлена (демо-редактирование).", false);
         }
 
@@ -127,6 +134,8 @@ namespace himchistka.practic
 
             _repository.DeleteOrder(selected.Id);
             RefreshView();
+            UpdateDashboard();
+            UpdateStatistics();
             SetStatus("Запись удалена.", false);
         }
 
@@ -143,6 +152,41 @@ namespace himchistka.practic
         private void TablesTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateTabNavigationButtons();
+        }
+
+        private void SaveProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentUser == null)
+            {
+                SetStatus("Гостевой режим: редактирование профиля недоступно.", true);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(ProfileFullNameTextBox.Text))
+            {
+                SetStatus("Введите ФИО сотрудника.", true);
+                return;
+            }
+
+            var newPassword = ProfilePasswordBox.Password?.Trim() ?? string.Empty;
+            if (!string.IsNullOrEmpty(newPassword) && !ValidationService.IsValidPassword(newPassword))
+            {
+                SetStatus("Пароль должен содержать минимум 6 символов.", true);
+                return;
+            }
+
+            _currentUser.FullName = ProfileFullNameTextBox.Text.Trim();
+            if (!string.IsNullOrEmpty(newPassword))
+            {
+                _currentUser.PasswordHash = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create()
+                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(newPassword)));
+            }
+
+            CurrentRoleTextBlock.Text = $"{_currentUser.Role} ({_currentUser.FullName})";
+            ProfilePasswordBox.Clear();
+            ProfileLastUpdateTextBlock.Text = $"Данные обновлены: {DateTime.Now:dd.MM.yyyy HH:mm}";
+            UpdateProfileSummary();
+            SetStatus("Данные личного кабинета сохранены.", false);
         }
 
         private void RefreshView()
@@ -166,6 +210,8 @@ namespace himchistka.practic
             };
 
             _ordersView.Refresh();
+            UpdateDashboard();
+            UpdateStatistics();
         }
 
         private void ApplySorting()
@@ -203,6 +249,8 @@ namespace himchistka.practic
             var isUser = _currentUser?.Role == UserRole.User;
 
             ClientsTab.Visibility = (isAdmin || isManager) ? Visibility.Visible : Visibility.Collapsed;
+            StatisticsTab.Visibility = (isAdmin || isManager) ? Visibility.Visible : Visibility.Collapsed;
+            ProfileTab.Visibility = _currentUser != null ? Visibility.Visible : Visibility.Collapsed;
 
             AddOrderButton.IsEnabled = isAdmin || isManager;
             EditOrderButton.IsEnabled = isAdmin || isManager;
@@ -217,6 +265,49 @@ namespace himchistka.practic
                 : $"{_currentUser.Role} ({_currentUser.FullName})";
 
             UpdateTabNavigationButtons();
+        }
+
+        private void FillProfileData()
+        {
+            ProfileFullNameTextBox.Text = _currentUser?.FullName ?? "Гость";
+            ProfileLoginTextBox.Text = _currentUser?.Login ?? "Нет логина";
+            ProfileRoleTextBox.Text = _currentUser?.Role.ToString() ?? "Guest";
+            ProfileLastUpdateTextBlock.Text = "Изменений пока нет.";
+            UpdateProfileSummary();
+        }
+
+        private void UpdateProfileSummary()
+        {
+            ProfileSummaryTextBlock.Text =
+                $"Сотрудник: {ProfileFullNameTextBox.Text}\n" +
+                $"Логин: {ProfileLoginTextBox.Text}\n" +
+                $"Роль в системе: {ProfileRoleTextBox.Text}";
+        }
+
+        private void UpdateDashboard()
+        {
+            var filteredOrders = _ordersView?.Cast<OrderRecord>().ToList() ?? _repository.Orders.ToList();
+            ActiveOrdersTextBlock.Text = filteredOrders.Count.ToString();
+            var average = filteredOrders.Count == 0 ? 0 : filteredOrders.Average(x => x.TotalPrice);
+            AverageCheckTextBlock.Text = $"{average:N0} ₽";
+        }
+
+        private void UpdateStatistics()
+        {
+            NewOrdersCountTextBlock.Text = $"Новые: {_repository.Orders.Count(x => x.Status == "Новый")}";
+            InProgressOrdersCountTextBlock.Text = $"В работе: {_repository.Orders.Count(x => x.Status == "В работе")}";
+            ReadyOrdersCountTextBlock.Text = $"Готово: {_repository.Orders.Count(x => x.Status == "Готов")}";
+            DeliveredOrdersCountTextBlock.Text = $"Выдано: {_repository.Orders.Count(x => x.Status == "Выдан")}";
+            ClientsCountTextBlock.Text = $"Всего клиентов: {_repository.Clients.Count}";
+
+            var topClient = _repository.Orders
+                .GroupBy(x => x.ClientFullName)
+                .OrderByDescending(x => x.Sum(o => o.TotalPrice))
+                .FirstOrDefault();
+
+            TopClientTextBlock.Text = topClient == null
+                ? "Нет данных по клиентам."
+                : $"Топ-клиент по выручке: {topClient.Key} ({topClient.Sum(x => x.TotalPrice):N0} ₽)";
         }
 
         private void NavigateTab(int direction)
