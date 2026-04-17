@@ -46,6 +46,11 @@ namespace himchistka.practic
 
         public OrderRecord AddOrder(OrderRecord source)
         {
+            if (!ValidationService.IsValidOrder(source))
+            {
+                throw new InvalidOperationException("Некорректные данные заказа.");
+            }
+
             var order = new OrderRecord
             {
                 Id = _nextId++,
@@ -90,6 +95,16 @@ namespace himchistka.practic
 
         public CartItem AddToCart(ServiceCatalogRecord service, int quantity)
         {
+            if (service == null)
+            {
+                throw new InvalidOperationException("Услуга не выбрана.");
+            }
+
+            if (quantity <= 0)
+            {
+                throw new InvalidOperationException("Количество должно быть больше нуля.");
+            }
+
             var existing = Cart.FirstOrDefault(x => x.ServiceId == service.Id);
             if (existing != null)
             {
