@@ -61,4 +61,28 @@ public class BusinessLogicTests
 
         Assert.IsFalse(repo.Orders.Any(x => x.Id == firstId));
     }
+
+
+    [TestMethod]
+    public void AddToCart_ShouldThrow_WhenQuantityIsInvalid()
+    {
+        var repo = new OrderRepository();
+        var service = repo.ServicesCatalog.First();
+
+        Assert.ThrowsException<InvalidOperationException>(() => repo.AddToCart(service, 0));
+    }
+
+    [TestMethod]
+    public void CreateOrderFromCart_ShouldCreateOrderWithSum()
+    {
+        var repo = new OrderRepository();
+        var service = repo.ServicesCatalog.First();
+        repo.AddToCart(service, 2);
+        var before = repo.Orders.Count;
+
+        var order = repo.CreateOrderFromCart("Тестовый клиент");
+
+        Assert.AreEqual(before + 1, repo.Orders.Count);
+        Assert.AreEqual(service.BasePrice * 2, order.TotalPrice);
+    }
 }

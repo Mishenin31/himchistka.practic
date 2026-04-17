@@ -130,7 +130,6 @@ namespace himchistka.practic
             try
             {
                 var clientName = _currentUser?.FullName ?? "Клиент";
-                var order = _repository.CreateOrderFromCart(clientName);
                 var itemsCopy = _repository.Cart.Select(x => new CartItem
                 {
                     Id = x.Id,
@@ -140,6 +139,7 @@ namespace himchistka.practic
                     UnitPrice = x.UnitPrice
                 }).ToList();
 
+                var order = _repository.CreateOrderFromCart(clientName);
                 var receiptPath = _receiptService.CreateReceipt(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "receipts"), order, itemsCopy);
 
                 _repository.ClearCart();
@@ -177,7 +177,7 @@ namespace himchistka.practic
                 return;
             }
 
-            selected.Status = selected.Status == "Новый" ? "В работе" : "Готов";
+            selected.Status = GetNextStatus(selected.Status);
             selected.TotalPrice += 100;
             RefreshView();
             SetStatus("Заказ изменен.", false);
@@ -233,6 +233,12 @@ namespace himchistka.practic
             if (selected == null)
             {
                 SetStatus("Выберите пользователя.", true);
+                return;
+            }
+
+            if (string.Equals(selected.Login, "admin", StringComparison.OrdinalIgnoreCase))
+            {
+                SetStatus("Нельзя удалить встроенного администратора.", true);
                 return;
             }
 
@@ -302,10 +308,14 @@ namespace himchistka.practic
             var statusFilter = (StatusFilterComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Все статусы";
             var search = SearchTextBox.Text?.Trim() ?? string.Empty;
 
-            var statusOk = statusFilter == "Все статусы" || item.Status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase);
+            var status = item.Status ?? string.Empty;
+            var clientName = item.ClientFullName ?? string.Empty;
+            var serviceName = item.ServiceName ?? string.Empty;
+
+            var statusOk = statusFilter == "Все статусы" || status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase);
             var searchOk = string.IsNullOrWhiteSpace(search)
-                           || item.ClientFullName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
-                           || item.ServiceName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
+                           || clientName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0
+                           || serviceName.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
 
             return statusOk && searchOk;
         }
@@ -336,6 +346,27 @@ namespace himchistka.practic
             {
                 _ordersView.SortDescriptions.Add(new SortDescription(nameof(OrderRecord.DateReceived), ListSortDirection.Descending));
             }
+        }
+
+
+        private static string GetNextStatus(string currentStatus)
+        {
+            if (string.Equals(currentStatus, "Новый", StringComparison.OrdinalIgnoreCase))
+            {
+                return "В работе";
+            }
+
+            if (string.Equals(currentStatus, "В работе", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Готов";
+            }
+
+            if (string.Equals(currentStatus, "Готов", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Выдан";
+            }
+
+            return "Новый";
         }
 
         private void SetStatus(string message, bool isError)

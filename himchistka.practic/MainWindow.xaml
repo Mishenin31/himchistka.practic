@@ -1,8 +1,38 @@
 <Window x:Class="himchistka.practic.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CleanersDB — Панель" Height="760" Width="1280" WindowStartupLocation="CenterScreen">
-    <Grid Margin="12">
+        Title="CleanersDB — Панель"
+        Height="760"
+        Width="1280"
+        MinHeight="680"
+        MinWidth="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF2F5F9">
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#FF243746"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FFF3C36A"/>
+        <SolidColorBrush x:Key="CardBrush" Color="#FFFFFFFF"/>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#FFF8FAFC"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -10,134 +40,144 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" Margin="0 0 0 10">
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
-                <TextBlock Text="CleanersDB" FontSize="22" FontWeight="Bold"/>
-                <TextBlock Text="Каталог, корзина, заказы и админ-панель" Foreground="Gray"/>
-            </StackPanel>
-            <TextBlock x:Name="CurrentRoleTextBlock" DockPanel.Dock="Right" VerticalAlignment="Center" FontWeight="SemiBold"/>
-        </DockPanel>
+        <Border Grid.Row="0" CornerRadius="16" Background="{StaticResource PrimaryBrush}" Padding="20" Margin="0 0 0 12">
+            <DockPanel>
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+                    <TextBlock Text="CleanersDB" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Каталог, корзина, заказы и админ-панель" Foreground="#FFD4E0EA" Margin="0 4 0 0"/>
+                </StackPanel>
+                <Border DockPanel.Dock="Right" Background="#1EFFFFFF" CornerRadius="10" Padding="12 6">
+                    <TextBlock x:Name="CurrentRoleTextBlock" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="White"/>
+                </Border>
+            </DockPanel>
+        </Border>
 
-        <Grid Grid.Row="1" Margin="0 0 0 10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox x:Name="SearchTextBox" Grid.Column="0" Margin="0 0 8 0" Height="32" VerticalContentAlignment="Center" TextChanged="SearchTextBox_TextChanged"/>
-            <ComboBox x:Name="StatusFilterComboBox" Grid.Column="1" Margin="0 0 8 0" Height="32" SelectionChanged="StatusFilterComboBox_SelectionChanged">
-                <ComboBoxItem Content="Все статусы" IsSelected="True"/>
-                <ComboBoxItem Content="Новый"/>
-                <ComboBoxItem Content="В работе"/>
-                <ComboBoxItem Content="Готов"/>
-                <ComboBoxItem Content="Выдан"/>
-            </ComboBox>
-            <ComboBox x:Name="SortComboBox" Grid.Column="2" Height="32" SelectionChanged="SortComboBox_SelectionChanged">
-                <ComboBoxItem Content="По дате (новые сначала)" IsSelected="True"/>
-                <ComboBoxItem Content="По цене (возрастание)"/>
-                <ComboBoxItem Content="По цене (убывание)"/>
-                <ComboBoxItem Content="По клиенту (А-Я)"/>
-            </ComboBox>
-            <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="10 0 0 0">
-                <Button x:Name="AddToCartButton" Content="В корзину" Margin="0 0 6 0" Click="AddToCartButton_Click"/>
-                <Button x:Name="CreateOrderFromCartButton" Content="Оформить" Margin="0 0 6 0" Click="CreateOrderFromCartButton_Click"/>
-                <Button x:Name="AddOrderButton" Content="+ Заказ" Margin="0 0 6 0" Click="AddOrderButton_Click"/>
-                <Button x:Name="EditOrderButton" Content="Изм." Margin="0 0 6 0" Click="EditOrderButton_Click"/>
-                <Button x:Name="DeleteOrderButton" Content="Удалить" Click="DeleteOrderButton_Click"/>
-            </StackPanel>
-        </Grid>
+        <Border Grid.Row="1" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="12" Margin="0 0 0 12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchTextBox" Grid.Column="0" Margin="0 0 8 0" Height="32" VerticalContentAlignment="Center" TextChanged="SearchTextBox_TextChanged"/>
+                <ComboBox x:Name="StatusFilterComboBox" Grid.Column="1" Margin="0 0 8 0" Height="32" SelectionChanged="StatusFilterComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Все статусы" IsSelected="True"/>
+                    <ComboBoxItem Content="Новый"/>
+                    <ComboBoxItem Content="В работе"/>
+                    <ComboBoxItem Content="Готов"/>
+                    <ComboBoxItem Content="Выдан"/>
+                </ComboBox>
+                <ComboBox x:Name="SortComboBox" Grid.Column="2" Height="32" SelectionChanged="SortComboBox_SelectionChanged">
+                    <ComboBoxItem Content="По дате (новые сначала)" IsSelected="True"/>
+                    <ComboBoxItem Content="По цене (возрастание)"/>
+                    <ComboBoxItem Content="По цене (убывание)"/>
+                    <ComboBoxItem Content="По клиенту (А-Я)"/>
+                </ComboBox>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="10 0 0 0">
+                    <Button x:Name="AddToCartButton" Content="В корзину" Click="AddToCartButton_Click"/>
+                    <Button x:Name="CreateOrderFromCartButton" Content="Оформить" Click="CreateOrderFromCartButton_Click"/>
+                    <Button x:Name="AddOrderButton" Content="+ Заказ" Click="AddOrderButton_Click"/>
+                    <Button x:Name="EditOrderButton" Content="Изм." Click="EditOrderButton_Click"/>
+                    <Button x:Name="DeleteOrderButton" Content="Удалить" Margin="0" Click="DeleteOrderButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-        <TabControl x:Name="TablesTabControl" Grid.Row="2" SelectionChanged="TablesTabControl_SelectionChanged">
-            <TabItem Header="Заказы" x:Name="OrdersTab">
-                <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                        <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
-                        <DataGridTextColumn Header="Услуги" Binding="{Binding ServiceName}" Width="*"/>
-                        <DataGridTextColumn Header="Дата" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy HH:mm}" Width="160"/>
-                        <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
-                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-
-            <TabItem Header="Каталог" x:Name="ServicesCatalogTab">
-                <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                        <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                        <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="180"/>
-                        <DataGridTextColumn Header="Срок" Binding="{Binding Duration}" Width="140"/>
-                        <DataGridTextColumn Header="Цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="120"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-
-            <TabItem Header="Корзина" x:Name="CartTab">
-                <DockPanel Margin="8">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
-                        <Button x:Name="RemoveFromCartButton" Content="Удалить позицию" Margin="0 0 8 0" Click="RemoveFromCartButton_Click"/>
-                        <Button x:Name="ClearCartButton" Content="Очистить корзину" Click="ClearCartButton_Click"/>
-                    </StackPanel>
-                    <DataGrid x:Name="CartDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="10">
+            <TabControl x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged">
+                <TabItem Header="Заказы" x:Name="OrdersTab">
+                    <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                            <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, StringFormat=N0}" Width="120"/>
-                            <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="90"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
+                            <DataGridTextColumn Header="Услуги" Binding="{Binding ServiceName}" Width="*"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy HH:mm}" Width="160"/>
                             <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </DockPanel>
-            </TabItem>
+                </TabItem>
 
-            <TabItem Header="Пользователи" x:Name="UsersTab">
-                <DockPanel Margin="8">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
-                        <Button Content="Добавить" Margin="0 0 8 0" Click="AddUserButton_Click"/>
-                        <Button Content="Сделать User" Margin="0 0 8 0" Click="MakeUserRoleButton_Click"/>
-                        <Button Content="Удалить" Click="DeleteUserButton_Click"/>
-                    </StackPanel>
-                    <DataGrid x:Name="UsersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                <TabItem Header="Каталог" x:Name="ServicesCatalogTab">
+                    <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
-                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="180"/>
-                            <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="140"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="180"/>
+                            <DataGridTextColumn Header="Срок" Binding="{Binding Duration}" Width="140"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="120"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </DockPanel>
-            </TabItem>
+                </TabItem>
 
-            <TabItem Header="Справочники" x:Name="ReferencesTab">
-                <DockPanel Margin="8">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
-                        <Button Content="Добавить" Margin="0 0 8 0" Click="AddReferenceButton_Click"/>
-                        <Button Content="Изменить" Margin="0 0 8 0" Click="EditReferenceButton_Click"/>
-                        <Button Content="Удалить" Click="DeleteReferenceButton_Click"/>
-                    </StackPanel>
-                    <DataGrid x:Name="ReferencesDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="140"/>
-                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
-                            <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="180"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </TabItem>
-        </TabControl>
+                <TabItem Header="Корзина" x:Name="CartTab">
+                    <DockPanel Margin="8">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
+                            <Button x:Name="RemoveFromCartButton" Content="Удалить позицию" Click="RemoveFromCartButton_Click"/>
+                            <Button x:Name="ClearCartButton" Content="Очистить корзину" Margin="0" Click="ClearCartButton_Click"/>
+                        </StackPanel>
+                        <DataGrid x:Name="CartDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                                <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
+                                <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, StringFormat=N0}" Width="120"/>
+                                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="90"/>
+                                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </TabItem>
 
-        <Grid Grid.Row="3" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Активных заказов:" VerticalAlignment="Center"/>
-            <TextBlock x:Name="ActiveOrdersTextBlock" Grid.Column="1" Margin="6 0 16 0" VerticalAlignment="Center" FontWeight="Bold"/>
-            <TextBlock x:Name="StatusMessageTextBlock" Grid.Column="2" VerticalAlignment="Center"/>
-        </Grid>
+                <TabItem Header="Пользователи" x:Name="UsersTab">
+                    <DockPanel Margin="8">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
+                            <Button Content="Добавить" Margin="0 0 8 0" Click="AddUserButton_Click"/>
+                            <Button Content="Сделать User" Margin="0 0 8 0" Click="MakeUserRoleButton_Click"/>
+                            <Button Content="Удалить" Margin="0" Click="DeleteUserButton_Click"/>
+                        </StackPanel>
+                        <DataGrid x:Name="UsersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="180"/>
+                                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </TabItem>
+
+                <TabItem Header="Справочники" x:Name="ReferencesTab">
+                    <DockPanel Margin="8">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
+                            <Button Content="Добавить" Margin="0 0 8 0" Click="AddReferenceButton_Click"/>
+                            <Button Content="Изменить" Margin="0 0 8 0" Click="EditReferenceButton_Click"/>
+                            <Button Content="Удалить" Margin="0" Click="DeleteReferenceButton_Click"/>
+                        </StackPanel>
+                        <DataGrid x:Name="ReferencesDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="140"/>
+                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="180"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <Border Grid.Row="3" Background="White" CornerRadius="10" Padding="12" Margin="0 12 0 0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Активных заказов:" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ActiveOrdersTextBlock" Grid.Column="1" Margin="6 0 16 0" VerticalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                <TextBlock x:Name="StatusMessageTextBlock" Grid.Column="2" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
