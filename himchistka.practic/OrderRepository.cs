@@ -7,6 +7,8 @@ namespace himchistka.practic
     public sealed class OrderRepository
     {
         private int _nextId = 6;
+        private int _nextCartId = 1;
+        private int _nextReferenceId = 4;
 
         public ObservableCollection<OrderRecord> Orders { get; } = new ObservableCollection<OrderRecord>
         {
@@ -26,11 +28,20 @@ namespace himchistka.practic
 
         public ObservableCollection<ServiceCatalogRecord> ServicesCatalog { get; } = new ObservableCollection<ServiceCatalogRecord>
         {
-            new ServiceCatalogRecord { Id = 1, Name = "Химчистка пальто", Category = "Верхняя одежда", Duration = "2-3 дня", BasePrice = 2500 },
-            new ServiceCatalogRecord { Id = 2, Name = "Химчистка платья", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2700 },
-            new ServiceCatalogRecord { Id = 3, Name = "Чистка костюма", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2300 },
-            new ServiceCatalogRecord { Id = 4, Name = "Чистка ковра", Category = "Домашний текстиль", Duration = "3-5 дней", BasePrice = 3200 },
-            new ServiceCatalogRecord { Id = 5, Name = "Удаление пятен", Category = "Дополнительная услуга", Duration = "до 1 дня", BasePrice = 1800 }
+            new ServiceCatalogRecord { Id = 1, Name = "Химчистка пальто", Category = "Верхняя одежда", Duration = "2-3 дня", BasePrice = 2500, IsActive = true },
+            new ServiceCatalogRecord { Id = 2, Name = "Химчистка платья", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2700, IsActive = true },
+            new ServiceCatalogRecord { Id = 3, Name = "Чистка костюма", Category = "Одежда", Duration = "1-2 дня", BasePrice = 2300, IsActive = true },
+            new ServiceCatalogRecord { Id = 4, Name = "Чистка ковра", Category = "Домашний текстиль", Duration = "3-5 дней", BasePrice = 3200, IsActive = true },
+            new ServiceCatalogRecord { Id = 5, Name = "Удаление пятен", Category = "Дополнительная услуга", Duration = "до 1 дня", BasePrice = 1800, IsActive = true }
+        };
+
+        public ObservableCollection<CartItem> Cart { get; } = new ObservableCollection<CartItem>();
+
+        public ObservableCollection<ReferenceRecord> References { get; } = new ObservableCollection<ReferenceRecord>
+        {
+            new ReferenceRecord { Id = 1, Type = "Страна", Name = "Россия", Value = "RU" },
+            new ReferenceRecord { Id = 2, Type = "Город", Name = "Москва", Value = "MSK" },
+            new ReferenceRecord { Id = 3, Type = "Статус", Name = "Принят", Value = "OrderStatus" }
         };
 
         public OrderRecord AddOrder(OrderRecord source)
@@ -49,6 +60,25 @@ namespace himchistka.practic
             return order;
         }
 
+        public OrderRecord CreateOrderFromCart(string clientFullName)
+        {
+            if (Cart.Count == 0)
+            {
+                throw new InvalidOperationException("Корзина пуста.");
+            }
+
+            var order = AddOrder(new OrderRecord
+            {
+                ClientFullName = clientFullName,
+                ServiceName = string.Join(", ", Cart.Select(x => x.ServiceName)),
+                DateReceived = DateTime.Now,
+                TotalPrice = Cart.Sum(x => x.TotalPrice),
+                Status = "Новый"
+            });
+
+            return order;
+        }
+
         public void DeleteOrder(int id)
         {
             var order = Orders.FirstOrDefault(x => x.Id == id);
@@ -56,6 +86,101 @@ namespace himchistka.practic
             {
                 Orders.Remove(order);
             }
+        }
+
+        public CartItem AddToCart(ServiceCatalogRecord service, int quantity)
+        {
+            var existing = Cart.FirstOrDefault(x => x.ServiceId == service.Id);
+            if (existing != null)
+            {
+                existing.Quantity += quantity;
+                return existing;
+            }
+
+            var item = new CartItem
+            {
+                Id = _nextCartId++,
+                ServiceId = service.Id,
+                ServiceName = service.Name,
+                UnitPrice = service.BasePrice,
+                Quantity = quantity
+            };
+            Cart.Add(item);
+            return item;
+        }
+
+        public void RemoveFromCart(int cartItemId)
+        {
+            var item = Cart.FirstOrDefault(x => x.Id == cartItemId);
+            if (item != null)
+            {
+                Cart.Remove(item);
+            }
+        }
+
+        public void ClearCart()
+        {
+            Cart.Clear();
+        }
+
+        public ServiceCatalogRecord AddService(ServiceCatalogRecord service)
+        {
+            service.Id = ServicesCatalog.Count == 0 ? 1 : ServicesCatalog.Max(x => x.Id) + 1;
+            ServicesCatalog.Add(service);
+            return service;
+        }
+
+        public void DeleteService(int id)
+        {
+            var service = ServicesCatalog.FirstOrDefault(x => x.Id == id);
+            if (service != null)
+            {
+                ServicesCatalog.Remove(service);
+            }
+        }
+
+        public void UpdateService(ServiceCatalogRecord updated)
+        {
+            var current = ServicesCatalog.FirstOrDefault(x => x.Id == updated.Id);
+            if (current == null)
+            {
+                return;
+            }
+
+            current.Name = updated.Name;
+            current.Category = updated.Category;
+            current.Duration = updated.Duration;
+            current.BasePrice = updated.BasePrice;
+            current.IsActive = updated.IsActive;
+        }
+
+        public ReferenceRecord AddReference(ReferenceRecord reference)
+        {
+            reference.Id = _nextReferenceId++;
+            References.Add(reference);
+            return reference;
+        }
+
+        public void DeleteReference(int id)
+        {
+            var reference = References.FirstOrDefault(x => x.Id == id);
+            if (reference != null)
+            {
+                References.Remove(reference);
+            }
+        }
+
+        public void UpdateReference(ReferenceRecord updated)
+        {
+            var current = References.FirstOrDefault(x => x.Id == updated.Id);
+            if (current == null)
+            {
+                return;
+            }
+
+            current.Type = updated.Type;
+            current.Name = updated.Name;
+            current.Value = updated.Value;
         }
     }
 }

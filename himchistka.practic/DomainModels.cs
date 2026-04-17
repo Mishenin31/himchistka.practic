@@ -11,6 +11,7 @@ namespace himchistka.practic
 
     public sealed class UserAccount
     {
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string Login { get; set; }
         public string PasswordHash { get; set; }
@@ -42,5 +43,24 @@ namespace himchistka.practic
         public string Category { get; set; }
         public string Duration { get; set; }
         public decimal BasePrice { get; set; }
+        public bool IsActive { get; set; } = true;
+    }
+
+    public sealed class CartItem
+    {
+        public int Id { get; set; }
+        public int ServiceId { get; set; }
+        public string ServiceName { get; set; }
+        public decimal UnitPrice { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalPrice => UnitPrice * Quantity;
+    }
+
+    public sealed class ReferenceRecord
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }
