@@ -154,16 +154,22 @@ namespace himchistka.practic
 
         private void AddOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            var baseService = _repository.ServicesCatalog.FirstOrDefault();
-            var order = _repository.AddOrder(new OrderRecord
+            var window = new OrderEditWindow(new OrderRecord
             {
-                ClientFullName = _currentUser?.FullName ?? "Новый клиент",
-                ServiceName = baseService?.Name ?? "Новая услуга",
+                ClientFullName = _currentUser?.FullName ?? string.Empty,
                 DateReceived = DateTime.Now,
-                TotalPrice = baseService?.BasePrice ?? 1000,
                 Status = "Новый"
-            });
+            })
+            {
+                Owner = this
+            };
 
+            if (window.ShowDialog() != true || window.Result == null)
+            {
+                return;
+            }
+
+            var order = _repository.AddOrder(window.Result);
             RefreshView();
             SetStatus($"Заказ #{order.Id} добавлен.", false);
         }
@@ -177,8 +183,31 @@ namespace himchistka.practic
                 return;
             }
 
-            selected.Status = GetNextStatus(selected.Status);
-            selected.TotalPrice += 100;
+            var draft = new OrderRecord
+            {
+                Id = selected.Id,
+                ClientFullName = selected.ClientFullName,
+                ServiceName = selected.ServiceName,
+                DateReceived = selected.DateReceived,
+                TotalPrice = selected.TotalPrice,
+                Status = selected.Status
+            };
+
+            var window = new OrderEditWindow(draft)
+            {
+                Owner = this
+            };
+
+            if (window.ShowDialog() != true || window.Result == null)
+            {
+                return;
+            }
+
+            selected.ClientFullName = window.Result.ClientFullName;
+            selected.ServiceName = window.Result.ServiceName;
+            selected.DateReceived = window.Result.DateReceived;
+            selected.TotalPrice = window.Result.TotalPrice;
+            selected.Status = window.Result.Status;
             RefreshView();
             SetStatus("Заказ изменен.", false);
         }
@@ -249,12 +278,23 @@ namespace himchistka.practic
 
         private void AddReferenceButton_Click(object sender, RoutedEventArgs e)
         {
-            _repository.AddReference(new ReferenceRecord
+            var window = new ReferenceEditWindow(new ReferenceRecord
             {
                 Type = "Категория",
-                Name = "Новая справка",
-                Value = "Значение"
-            });
+                Name = string.Empty,
+                Value = string.Empty
+            })
+            {
+                Owner = this
+            };
+
+            if (window.ShowDialog() != true || window.Result == null)
+            {
+                return;
+            }
+
+            _repository.AddReference(window.Result);
+            ReferencesDataGrid.Items.Refresh();
             SetStatus("Запись справочника добавлена.", false);
         }
 
@@ -267,7 +307,27 @@ namespace himchistka.practic
                 return;
             }
 
-            selected.Value = "Обновлено";
+            var draft = new ReferenceRecord
+            {
+                Id = selected.Id,
+                Type = selected.Type,
+                Name = selected.Name,
+                Value = selected.Value
+            };
+
+            var window = new ReferenceEditWindow(draft)
+            {
+                Owner = this
+            };
+
+            if (window.ShowDialog() != true || window.Result == null)
+            {
+                return;
+            }
+
+            selected.Type = window.Result.Type;
+            selected.Name = window.Result.Name;
+            selected.Value = window.Result.Value;
             _repository.UpdateReference(selected);
             ReferencesDataGrid.Items.Refresh();
             SetStatus("Справочник обновлен.", false);
