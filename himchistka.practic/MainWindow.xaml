@@ -5,8 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Sobolhim Clean — Рабочее место" MinHeight="650" MinWidth="1100" Height="740" Width="1280"
-        WindowStartupLocation="CenterScreen" Background="#FFF3F5F7">
-    <Grid Margin="14">
+        WindowStartupLocation="CenterScreen" Background="#FFF6F8FA">
+    <Window.Resources>
+        <SolidColorBrush x:Key="GithubCanvas" Color="#FFF6F8FA"/>
+        <SolidColorBrush x:Key="GithubSurface" Color="White"/>
+        <SolidColorBrush x:Key="GithubBorder" Color="#FFD0D7DE"/>
+        <SolidColorBrush x:Key="GithubMuted" Color="#FF57606A"/>
+        <SolidColorBrush x:Key="GithubText" Color="#FF24292F"/>
+        <SolidColorBrush x:Key="GithubAccent" Color="#FF2DA44E"/>
+
+        <Style TargetType="Border" x:Key="CardBorderStyle">
+            <Setter Property="Background" Value="{StaticResource GithubSurface}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GithubBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FFF6F8FA"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GithubBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Foreground" Value="{StaticResource GithubText}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Foreground" Value="{StaticResource GithubMuted}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,2" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" ContentSource="Header"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource GithubText}"/>
+                                <Setter Property="BorderBrush" Value="#FFFD8C73"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GithubBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#FFFBFCFD"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FFEAECEF"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#00FFFFFF"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#FFF6F8FA"/>
+                        <Setter Property="BorderBrush" Value="#FFEAECEF"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="Foreground" Value="{StaticResource GithubMuted}"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="18">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -14,180 +91,189 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Padding="16" Margin="0 0 0 10" CornerRadius="12" Background="#FF243746">
+        <Border Grid.Row="0" Style="{StaticResource CardBorderStyle}" Padding="16" Margin="0 0 0 12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
-                    <TextBlock Text="SOBOLHIM CLEAN" FontSize="12" FontWeight="Bold" Foreground="#FFF3C36A"/>
-                    <TextBlock Text="Панель управления заказами химчистки" Margin="0 4 0 0" FontSize="24" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="Стиль интерфейса адаптирован под корпоративный сайт sobolhim.ru" Margin="0 6 0 0" Foreground="#FFD0D9E1"/>
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="44" Height="44" CornerRadius="22" Background="#FF1F2328" Margin="0 0 12 0">
+                        <TextBlock Text="MG" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="MorozGrig / sobolhim-clean" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource GithubText}"/>
+                        <TextBlock Text="Панель управления заказами в стиле вкладки GitHub Repositories" Margin="0 4 0 0" Foreground="{StaticResource GithubMuted}"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock Text="Роль" Foreground="#FFD0D9E1" HorizontalAlignment="Right"/>
-                    <TextBlock x:Name="CurrentRoleTextBlock" Text="Не авторизован" FontSize="16" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                    <TextBlock Text="Роль" Foreground="{StaticResource GithubMuted}" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="CurrentRoleTextBlock" Text="Не авторизован" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource GithubText}" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <Grid Grid.Row="1" Margin="0 0 0 10">
+        <Grid Grid.Row="1" Margin="0 0 0 12">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.1*"/>
-                <ColumnDefinition Width="1.2*"/>
-                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="Поиск и фильтры" Margin="0 0 8 0">
-                <Grid Margin="8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBox x:Name="SearchTextBox" Margin="0 0 0 6" Height="30" VerticalContentAlignment="Center" ToolTip="Поиск по клиенту или услуге" TextChanged="SearchTextBox_TextChanged"/>
-                    <UniformGrid Grid.Row="1" Rows="1" Columns="2">
-                        <ComboBox x:Name="StatusFilterComboBox" Margin="0 0 6 0" Height="30" SelectionChanged="StatusFilterComboBox_SelectionChanged">
-                            <ComboBoxItem Content="Все статусы" IsSelected="True"/>
-                            <ComboBoxItem Content="Новый"/>
-                            <ComboBoxItem Content="В работе"/>
-                            <ComboBoxItem Content="Готов"/>
-                            <ComboBoxItem Content="Выдан"/>
-                        </ComboBox>
-                        <ComboBox x:Name="SortComboBox" Margin="6 0 0 0" Height="30" SelectionChanged="SortComboBox_SelectionChanged">
-                            <ComboBoxItem Content="По дате (новые сначала)" IsSelected="True"/>
-                            <ComboBoxItem Content="По цене (возрастание)"/>
-                            <ComboBoxItem Content="По цене (убывание)"/>
-                            <ComboBoxItem Content="По клиенту (А-Я)"/>
-                        </ComboBox>
-                    </UniformGrid>
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="10" Margin="0 0 10 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="190"/>
+                        <ColumnDefinition Width="190"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="SearchTextBox" Grid.Column="0" Margin="0 0 8 0" Height="34" VerticalContentAlignment="Center" ToolTip="Поиск по клиенту или услуге" TextChanged="SearchTextBox_TextChanged"/>
+                    <ComboBox x:Name="StatusFilterComboBox" Grid.Column="1" Margin="0 0 8 0" Height="34" SelectionChanged="StatusFilterComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Все статусы" IsSelected="True"/>
+                        <ComboBoxItem Content="Новый"/>
+                        <ComboBoxItem Content="В работе"/>
+                        <ComboBoxItem Content="Готов"/>
+                        <ComboBoxItem Content="Выдан"/>
+                    </ComboBox>
+                    <ComboBox x:Name="SortComboBox" Grid.Column="2" Height="34" SelectionChanged="SortComboBox_SelectionChanged">
+                        <ComboBoxItem Content="По дате (новые сначала)" IsSelected="True"/>
+                        <ComboBoxItem Content="По цене (возрастание)"/>
+                        <ComboBoxItem Content="По цене (убывание)"/>
+                        <ComboBoxItem Content="По клиенту (А-Я)"/>
+                    </ComboBox>
                 </Grid>
-            </GroupBox>
+            </Border>
 
-            <Border Grid.Column="1" Margin="0 0 8 0" Background="White" CornerRadius="8" BorderBrush="#FFDCE2E8" BorderThickness="1" Padding="10">
+            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Margin="0 0 10 0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="Активных заказов" Foreground="#FF5C6670"/>
-                    <TextBlock x:Name="ActiveOrdersTextBlock" Text="0" FontSize="24" FontWeight="SemiBold" Foreground="#FF223746"/>
+                    <TextBlock Text="Активных заказов" Foreground="{StaticResource GithubMuted}"/>
+                    <TextBlock x:Name="ActiveOrdersTextBlock" Text="0" FontSize="24" FontWeight="SemiBold" Foreground="{StaticResource GithubText}"/>
                 </StackPanel>
             </Border>
 
-            <Border Grid.Column="2" Margin="0 0 8 0" Background="White" CornerRadius="8" BorderBrush="#FFDCE2E8" BorderThickness="1" Padding="10">
+            <Border Grid.Column="2" Style="{StaticResource CardBorderStyle}" Margin="0 0 10 0" Padding="10">
                 <StackPanel>
-                    <TextBlock Text="Средний чек" Foreground="#FF5C6670"/>
-                    <TextBlock x:Name="AverageCheckTextBlock" Text="0 ₽" FontSize="24" FontWeight="SemiBold" Foreground="#FF223746"/>
+                    <TextBlock Text="Средний чек" Foreground="{StaticResource GithubMuted}"/>
+                    <TextBlock x:Name="AverageCheckTextBlock" Text="0 ₽" FontSize="24" FontWeight="SemiBold" Foreground="{StaticResource GithubText}"/>
                 </StackPanel>
             </Border>
 
-            <StackPanel Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 6">
-                    <Button x:Name="PreviousTabButton" Content="◀" Width="32" Height="30" Margin="0 0 6 0" Click="PreviousTabButton_Click" ToolTip="Предыдущая вкладка"/>
-                    <Button x:Name="NextTabButton" Content="▶" Width="32" Height="30" Click="NextTabButton_Click" ToolTip="Следующая вкладка"/>
-                </StackPanel>
-                <Button x:Name="AddOrderButton" Content="Добавить" Height="30" Margin="0 0 0 6" Click="AddOrderButton_Click"/>
-                <Button x:Name="EditOrderButton" Content="Редактировать" Height="30" Margin="0 0 0 6" Click="EditOrderButton_Click"/>
-                <Button x:Name="DeleteOrderButton" Content="Удалить" Height="30" Click="DeleteOrderButton_Click"/>
+            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button x:Name="PreviousTabButton" Content="◀" Width="34" Height="34" Margin="0 0 6 0" Click="PreviousTabButton_Click" ToolTip="Предыдущая вкладка"/>
+                <Button x:Name="NextTabButton" Content="▶" Width="34" Height="34" Margin="0 0 10 0" Click="NextTabButton_Click" ToolTip="Следующая вкладка"/>
+                <Button x:Name="AddOrderButton" Content="Добавить" Height="34" Margin="0 0 6 0" Click="AddOrderButton_Click" Background="{StaticResource GithubAccent}" Foreground="White" BorderBrush="#FF1B7F37"/>
+                <Button x:Name="EditOrderButton" Content="Редактировать" Height="34" Margin="0 0 6 0" Click="EditOrderButton_Click"/>
+                <Button x:Name="DeleteOrderButton" Content="Удалить" Height="34" Click="DeleteOrderButton_Click"/>
             </StackPanel>
         </Grid>
 
-        <TabControl Grid.Row="2" x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged">
-            <TabItem Header="Общая таблица заказов" x:Name="OrdersTab">
-                <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                        <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
-                        <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
-                        <DataGridTextColumn Header="Дата приема" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy}" Width="140"/>
-                        <DataGridTextColumn Header="Стоимость" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
-                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="130"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+        <Border Grid.Row="2" Style="{StaticResource CardBorderStyle}">
+            <TabControl x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged" Background="Transparent" BorderThickness="0">
+                <TabItem Header="Repositories" x:Name="OrdersTab">
+                    <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" Margin="12" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
+                            <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
+                            <DataGridTextColumn Header="Дата приема" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy}" Width="140"/>
+                            <DataGridTextColumn Header="Стоимость" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="130"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
 
-            <TabItem Header="Таблица клиентов" x:Name="ClientsTab">
-                <DataGrid x:Name="ClientsDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                        <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
-                        <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="200"/>
-                        <DataGridTextColumn Header="Лояльность" Binding="{Binding LoyaltyLevel}" Width="160"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+                <TabItem Header="Clients" x:Name="ClientsTab">
+                    <DataGrid x:Name="ClientsDataGrid" AutoGenerateColumns="False" Margin="12" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="200"/>
+                            <DataGridTextColumn Header="Лояльность" Binding="{Binding LoyaltyLevel}" Width="160"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
 
-            <TabItem Header="Каталог услуг" x:Name="ServicesCatalogTab">
-                <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" Margin="0 8 0 0" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                        <DataGridTextColumn Header="Услуга" Binding="{Binding Name}" Width="*"/>
-                        <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="220"/>
-                        <DataGridTextColumn Header="Срок выполнения" Binding="{Binding Duration}" Width="170"/>
-                        <DataGridTextColumn Header="Базовая цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="140"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+                <TabItem Header="Services" x:Name="ServicesCatalogTab">
+                    <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" Margin="12" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="Услуга" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="220"/>
+                            <DataGridTextColumn Header="Срок выполнения" Binding="{Binding Duration}" Width="170"/>
+                            <DataGridTextColumn Header="Базовая цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="140"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
 
-            <TabItem Header="Статистика" x:Name="StatisticsTab">
-                <Grid Margin="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Margin="0 0 8 0">
-                        <TextBlock Text="Заказы по статусам" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
-                        <TextBlock x:Name="NewOrdersCountTextBlock" Margin="0 0 0 6"/>
-                        <TextBlock x:Name="InProgressOrdersCountTextBlock" Margin="0 0 0 6"/>
-                        <TextBlock x:Name="ReadyOrdersCountTextBlock" Margin="0 0 0 6"/>
-                        <TextBlock x:Name="DeliveredOrdersCountTextBlock" Margin="0 0 0 6"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="8 0 0 0">
-                        <TextBlock Text="Клиенты" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
-                        <TextBlock x:Name="ClientsCountTextBlock" Margin="0 0 0 6"/>
-                        <TextBlock x:Name="TopClientTextBlock" TextWrapping="Wrap"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
+                <TabItem Header="Insights" x:Name="StatisticsTab">
+                    <Grid Margin="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-            <TabItem Header="Личный кабинет" x:Name="ProfileTab">
-                <Grid Margin="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.2*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="12" Margin="0 0 10 0">
+                            <StackPanel>
+                                <TextBlock Text="Заказы по статусам" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource GithubText}" Margin="0 0 0 8"/>
+                                <TextBlock x:Name="NewOrdersCountTextBlock" Margin="0 0 0 6" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBlock x:Name="InProgressOrdersCountTextBlock" Margin="0 0 0 6" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBlock x:Name="ReadyOrdersCountTextBlock" Margin="0 0 0 6" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBlock x:Name="DeliveredOrdersCountTextBlock" Margin="0 0 0 6" Foreground="{StaticResource GithubMuted}"/>
+                            </StackPanel>
+                        </Border>
 
-                    <Border Background="White" CornerRadius="10" BorderBrush="#FFDCE2E8" BorderThickness="1" Padding="14" Margin="0 0 10 0">
-                        <StackPanel>
-                            <TextBlock Text="Профиль сотрудника" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 12"/>
-                            <TextBlock Text="ФИО"/>
-                            <TextBox x:Name="ProfileFullNameTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center"/>
-                            <TextBlock Text="Логин"/>
-                            <TextBox x:Name="ProfileLoginTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center" IsReadOnly="True" Background="#FFF4F4F4"/>
-                            <TextBlock Text="Роль"/>
-                            <TextBox x:Name="ProfileRoleTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center" IsReadOnly="True" Background="#FFF4F4F4"/>
-                            <TextBlock Text="Новый пароль"/>
-                            <PasswordBox x:Name="ProfilePasswordBox" Height="34" Margin="0 6 0 14"/>
-                            <Button x:Name="SaveProfileButton" Content="Сохранить изменения" Height="36" Click="SaveProfileButton_Click"/>
-                        </StackPanel>
-                    </Border>
+                        <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Клиенты" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource GithubText}" Margin="0 0 0 8"/>
+                                <TextBlock x:Name="ClientsCountTextBlock" Margin="0 0 0 6" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBlock x:Name="TopClientTextBlock" TextWrapping="Wrap" Foreground="{StaticResource GithubMuted}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
 
-                    <Border Grid.Column="1" Background="#FF243746" CornerRadius="10" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Личный кабинет" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
-                            <TextBlock Text="В этом разделе можно обновить личные данные сотрудника и пароль для входа." Margin="0 10 0 14" TextWrapping="Wrap" Foreground="#FFD6DEE6"/>
-                            <TextBlock x:Name="ProfileLastUpdateTextBlock" Foreground="#FFF3C36A" Margin="0 0 0 12"/>
-                            <Border Background="#1EFFFFFF" CornerRadius="8" Padding="10" Margin="0 0 0 8">
-                                <TextBlock x:Name="ProfileSummaryTextBlock" TextWrapping="Wrap" Foreground="White"/>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                <TabItem Header="Settings" x:Name="ProfileTab">
+                    <Grid Margin="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-        <StatusBar Grid.Row="3" Margin="0 10 0 0">
-            <TextBlock x:Name="StatusMessageTextBlock" Text="Добро пожаловать в рабочую панель."/>
+                        <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="14" Margin="0 0 10 0">
+                            <StackPanel>
+                                <TextBlock Text="Профиль сотрудника" FontSize="16" FontWeight="SemiBold" Margin="0 0 0 12" Foreground="{StaticResource GithubText}"/>
+                                <TextBlock Text="ФИО" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBox x:Name="ProfileFullNameTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center"/>
+                                <TextBlock Text="Логин" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBox x:Name="ProfileLoginTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center" IsReadOnly="True" Background="#FFF6F8FA"/>
+                                <TextBlock Text="Роль" Foreground="{StaticResource GithubMuted}"/>
+                                <TextBox x:Name="ProfileRoleTextBox" Height="34" Margin="0 6 0 10" VerticalContentAlignment="Center" IsReadOnly="True" Background="#FFF6F8FA"/>
+                                <TextBlock Text="Новый пароль" Foreground="{StaticResource GithubMuted}"/>
+                                <PasswordBox x:Name="ProfilePasswordBox" Height="34" Margin="0 6 0 14"/>
+                                <Button x:Name="SaveProfileButton" Content="Сохранить изменения" Height="36" Click="SaveProfileButton_Click"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="1" Background="#FF24292F" CornerRadius="6" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="Личный кабинет" FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                <TextBlock Text="Настройки доступа и учетной записи отображаются в формате карточки, похожем на GitHub." Margin="0 10 0 14" TextWrapping="Wrap" Foreground="#FFD0D7DE"/>
+                                <TextBlock x:Name="ProfileLastUpdateTextBlock" Foreground="#FF58A6FF" Margin="0 0 0 12"/>
+                                <Border Background="#1FFFFFFF" CornerRadius="6" Padding="10" Margin="0 0 0 8">
+                                    <TextBlock x:Name="ProfileSummaryTextBlock" TextWrapping="Wrap" Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <StatusBar Grid.Row="3" Margin="0 10 0 0" Background="#FFF6F8FA" BorderBrush="#FFD0D7DE" BorderThickness="1">
+            <TextBlock x:Name="StatusMessageTextBlock" Text="Добро пожаловать в рабочую панель." Foreground="{StaticResource GithubMuted}"/>
         </StatusBar>
     </Grid>
 </Window>
