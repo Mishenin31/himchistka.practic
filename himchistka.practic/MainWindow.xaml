@@ -22,13 +22,10 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
-        <Style TargetType="DataGrid">
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#FFF8FAFC"/>
-            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
+        <Style TargetType="ListView">
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0"/>
         </Style>
     </Window.Resources>
 
@@ -87,28 +84,32 @@
         <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="10">
             <TabControl x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged">
                 <TabItem Header="Заказы" x:Name="OrdersTab">
-                    <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientFullName}" Width="*"/>
-                            <DataGridTextColumn Header="Услуги" Binding="{Binding ServiceName}" Width="*"/>
-                            <DataGridTextColumn Header="Дата" Binding="{Binding DateReceived, StringFormat=dd.MM.yyyy HH:mm}" Width="160"/>
-                            <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
-                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ListView x:Name="OrdersDataGrid">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Клиент" Width="220" DisplayMemberBinding="{Binding ClientFullName}"/>
+                                <GridViewColumn Header="Услуги" Width="230" DisplayMemberBinding="{Binding ServiceName}"/>
+                                <GridViewColumn Header="Дата" Width="160" DisplayMemberBinding="{Binding DateReceived, StringFormat=dd.MM.yyyy HH:mm}"/>
+                                <GridViewColumn Header="Сумма" Width="120" DisplayMemberBinding="{Binding TotalPrice, StringFormat=N0}"/>
+                                <GridViewColumn Header="Статус" Width="120" DisplayMemberBinding="{Binding Status}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </TabItem>
 
                 <TabItem Header="Каталог" x:Name="ServicesCatalogTab">
-                    <DataGrid x:Name="ServicesCatalogDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                            <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="180"/>
-                            <DataGridTextColumn Header="Срок" Binding="{Binding Duration}" Width="140"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding BasePrice, StringFormat=N0}" Width="120"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ListView x:Name="ServicesCatalogDataGrid">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Название" Width="260" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Категория" Width="180" DisplayMemberBinding="{Binding Category}"/>
+                                <GridViewColumn Header="Срок" Width="140" DisplayMemberBinding="{Binding Duration}"/>
+                                <GridViewColumn Header="Цена" Width="120" DisplayMemberBinding="{Binding BasePrice, StringFormat=N0}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </TabItem>
 
                 <TabItem Header="Корзина" x:Name="CartTab">
@@ -117,15 +118,17 @@
                             <Button x:Name="RemoveFromCartButton" Content="Удалить позицию" Click="RemoveFromCartButton_Click"/>
                             <Button x:Name="ClearCartButton" Content="Очистить корзину" Margin="0" Click="ClearCartButton_Click"/>
                         </StackPanel>
-                        <DataGrid x:Name="CartDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                                <DataGridTextColumn Header="Услуга" Binding="{Binding ServiceName}" Width="*"/>
-                                <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, StringFormat=N0}" Width="120"/>
-                                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="90"/>
-                                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat=N0}" Width="120"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListView x:Name="CartDataGrid">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Header="Услуга" Width="250" DisplayMemberBinding="{Binding ServiceName}"/>
+                                    <GridViewColumn Header="Цена" Width="120" DisplayMemberBinding="{Binding UnitPrice, StringFormat=N0}"/>
+                                    <GridViewColumn Header="Кол-во" Width="90" DisplayMemberBinding="{Binding Quantity}"/>
+                                    <GridViewColumn Header="Сумма" Width="120" DisplayMemberBinding="{Binding TotalPrice, StringFormat=N0}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </DockPanel>
                 </TabItem>
 
@@ -136,14 +139,16 @@
                             <Button Content="Сделать User" Margin="0 0 8 0" Click="MakeUserRoleButton_Click"/>
                             <Button Content="Удалить" Margin="0" Click="DeleteUserButton_Click"/>
                         </StackPanel>
-                        <DataGrid x:Name="UsersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
-                                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="180"/>
-                                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="140"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListView x:Name="UsersDataGrid">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Header="ФИО" Width="280" DisplayMemberBinding="{Binding FullName}"/>
+                                    <GridViewColumn Header="Логин" Width="180" DisplayMemberBinding="{Binding Login}"/>
+                                    <GridViewColumn Header="Роль" Width="140" DisplayMemberBinding="{Binding Role}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </DockPanel>
                 </TabItem>
 
@@ -154,14 +159,16 @@
                             <Button Content="Изменить" Margin="0 0 8 0" Click="EditReferenceButton_Click"/>
                             <Button Content="Удалить" Margin="0" Click="DeleteReferenceButton_Click"/>
                         </StackPanel>
-                        <DataGrid x:Name="ReferencesDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="140"/>
-                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="180"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListView x:Name="ReferencesDataGrid">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Header="Тип" Width="140" DisplayMemberBinding="{Binding Type}"/>
+                                    <GridViewColumn Header="Наименование" Width="300" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="Значение" Width="180" DisplayMemberBinding="{Binding Value}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </DockPanel>
                 </TabItem>
             </TabControl>
