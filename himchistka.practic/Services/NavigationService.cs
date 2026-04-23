@@ -27,6 +27,16 @@ public class NavigationService
         _frame?.Navigate(page);
     }
 
+    public bool CanGoBack => _frame?.CanGoBack == true;
+
+    public void GoBack()
+    {
+        if (CanGoBack)
+        {
+            _frame?.GoBack();
+        }
+    }
+
     private void EnsureAccess(Type pageType)
     {
         var currentUser = _sessionService.CurrentUser;

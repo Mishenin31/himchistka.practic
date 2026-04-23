@@ -12,6 +12,7 @@ public class CheckoutPageViewModel : BaseViewModel
     public CheckoutPageViewModel(NavigationService navigationService)
     {
         _navigationService = navigationService;
+        BackCommand = new RelayCommand(() => _navigationService.GoBack(), () => _navigationService.CanGoBack);
         PlaceOrderCommand = new RelayCommand(PlaceOrder);
     }
 
@@ -19,6 +20,7 @@ public class CheckoutPageViewModel : BaseViewModel
     public string PaymentMethod { get; set; } = "Карта";
     public string Comment { get; set; } = string.Empty;
 
+    public ICommand BackCommand { get; }
     public ICommand PlaceOrderCommand { get; }
 
     private void PlaceOrder()

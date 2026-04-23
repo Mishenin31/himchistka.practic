@@ -6,6 +6,7 @@
         <Border Width="500" Padding="30" Background="White" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel>
                 <TextBlock Text="Регистрация" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+                <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,12"/>
                 <TextBlock Text="ФИО"/><TextBox Margin="0,6,0,10" Text="{Binding FullName}"/>
                 <TextBlock Text="Email"/><TextBox Margin="0,6,0,10" Text="{Binding Email}"/>
                 <TextBlock Text="Телефон"/><TextBox Margin="0,6,0,10" Text="{Binding Phone}"/>

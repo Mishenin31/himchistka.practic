@@ -3,12 +3,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="CheckoutPage">
     <Grid Margin="20">
-        <Border Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
+        <Border Grid.Row="1" Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
             <StackPanel>
                 <TextBlock Text="Оформление заказа" FontSize="22" FontWeight="Bold" Margin="0,0,0,16"/>
-                <TextBlock Text="Адрес"/><TextBox Margin="0,6,0,10" Text="{Binding Address}"/>
+                <TextBlock Text="Адрес выдачи"/><TextBox Margin="0,6,0,10" Text="{Binding Address}"/>
                 <TextBlock Text="Способ оплаты"/><TextBox Margin="0,6,0,10" Text="{Binding PaymentMethod}"/>
-                <TextBlock Text="Комментарий"/><TextBox Margin="0,6,0,20" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Comment}"/>
+                <TextBlock Text="Комментарий к изделию"/><TextBox Margin="0,6,0,20" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Comment}"/>
                 <Button Content="Подтвердить" Command="{Binding PlaceOrderCommand}" HorizontalAlignment="Left" Padding="14,6"/>
             </StackPanel>
         </Border>

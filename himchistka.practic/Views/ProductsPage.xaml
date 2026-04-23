@@ -3,13 +3,18 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="ProductsPage">
     <Grid Margin="20">
-        <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="Остаток" Binding="{Binding Stock}"/>
+                <DataGridTextColumn Header="Доступно слотов" Binding="{Binding Stock}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

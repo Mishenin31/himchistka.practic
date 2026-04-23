@@ -15,10 +15,12 @@ public class CartPageViewModel : BaseViewModel
     {
         _navigationService = navigationService;
         Items = new ObservableCollection<CartItem>();
+        BackCommand = new RelayCommand(() => _navigationService.GoBack(), () => _navigationService.CanGoBack);
         CheckoutCommand = new RelayCommand(() => _navigationService.Navigate<CheckoutPage>());
     }
 
     public ObservableCollection<CartItem> Items { get; }
     public decimal Total => Items.Sum(x => x.Total);
+    public ICommand BackCommand { get; }
     public ICommand CheckoutCommand { get; }
 }
