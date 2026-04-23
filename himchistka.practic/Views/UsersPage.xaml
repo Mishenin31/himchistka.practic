@@ -49,6 +49,50 @@
                 </Grid>
             </TabItem>
 
+            <TabItem Header="Услуги">
+                <Grid Margin="14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+                        <TextBox Grid.Column="2" Text="{Binding ServiceDescription, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+                        <TextBox Grid.Column="4" Text="{Binding ServicePrice, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+                        <TextBox Grid.Column="6" Text="{Binding ServiceStock, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+
+                        <StackPanel Grid.Column="8" Orientation="Horizontal">
+                            <Button Content="Создать" Command="{Binding AddServiceCommand}" Margin="0,0,8,0" Padding="10,6"/>
+                            <Button Content="Редактировать" Command="{Binding UpdateServiceCommand}" Margin="0,0,8,0" Padding="10,6"/>
+                            <Button Content="Удалить" Command="{Binding DeleteServiceCommand}" Padding="10,6" Background="#E57373" Foreground="White" BorderThickness="0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="Услуга" Binding="{Binding Name}" Width="260"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="120"/>
+                            <DataGridTextColumn Header="В наличии" Binding="{Binding Stock}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
             <TabItem Header="Все заказы">
                 <DataGrid Margin="14" ItemsSource="{Binding Orders}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
