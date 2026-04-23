@@ -31,6 +31,7 @@ namespace himchistka.practic
             InitializeComponent();
             InitializeData();
             ApplyPermissions();
+            TablesTabControl.SelectedItem = ServicesCatalogTab;
             SetStatus($"Авторизация: {_currentUser?.FullName ?? "гость"}", false);
         }
 
@@ -68,6 +69,28 @@ namespace himchistka.practic
             CurrentRoleTextBlock.Text = _currentUser == null
                 ? "Не авторизован"
                 : $"Роль: {_currentUser.Role} ({_currentUser.FullName})";
+        }
+
+
+        private void UsersSectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (UsersTab.Visibility != Visibility.Visible)
+            {
+                SetStatus("Раздел пользователей доступен только администратору.", true);
+                return;
+            }
+
+            TablesTabControl.SelectedItem = UsersTab;
+        }
+
+        private void OrdersSectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            TablesTabControl.SelectedItem = OrdersTab;
+        }
+
+        private void ProductsSectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            TablesTabControl.SelectedItem = ServicesCatalogTab;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

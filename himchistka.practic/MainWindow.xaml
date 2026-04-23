@@ -33,6 +33,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -50,6 +51,14 @@
         </Border>
 
         <Border Grid.Row="1" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="12" Margin="0 0 0 12">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Пользователи" Click="UsersSectionButton_Click"/>
+                <Button Content="Заказы" Click="OrdersSectionButton_Click"/>
+                <Button Content="Товары" Click="ProductsSectionButton_Click" Margin="0"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="12" Margin="0 0 0 12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -81,7 +90,7 @@
             </Grid>
         </Border>
 
-        <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="10">
+        <Border Grid.Row="3" Background="{StaticResource CardBrush}" CornerRadius="12" Padding="10">
             <TabControl x:Name="TablesTabControl" SelectionChanged="TablesTabControl_SelectionChanged">
                 <TabItem Header="Заказы" x:Name="OrdersTab">
                     <ListView x:Name="OrdersDataGrid">
@@ -98,7 +107,7 @@
                     </ListView>
                 </TabItem>
 
-                <TabItem Header="Каталог" x:Name="ServicesCatalogTab">
+                <TabItem Header="Товары" x:Name="ServicesCatalogTab">
                     <ListView x:Name="ServicesCatalogDataGrid">
                         <ListView.View>
                             <GridView>
@@ -112,7 +121,7 @@
                     </ListView>
                 </TabItem>
 
-                <TabItem Header="Корзина" x:Name="CartTab">
+                <TabItem Header="Корзина" x:Name="CartTab" Visibility="Collapsed">
                     <DockPanel Margin="8">
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
                             <Button x:Name="RemoveFromCartButton" Content="Удалить позицию" Click="RemoveFromCartButton_Click"/>
@@ -152,7 +161,7 @@
                     </DockPanel>
                 </TabItem>
 
-                <TabItem Header="Справочники" x:Name="ReferencesTab">
+                <TabItem Header="Справочники" x:Name="ReferencesTab" Visibility="Collapsed">
                     <DockPanel Margin="8">
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 0 0 8">
                             <Button Content="Добавить" Margin="0 0 8 0" Click="AddReferenceButton_Click"/>
@@ -174,7 +183,7 @@
             </TabControl>
         </Border>
 
-        <Border Grid.Row="3" Background="White" CornerRadius="10" Padding="12" Margin="0 12 0 0">
+        <Border Grid.Row="4" Background="White" CornerRadius="10" Padding="12" Margin="0 12 0 0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
