@@ -1,0 +1,17 @@
+<Page x:Class="himchistka.practic.Views.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="RegisterPage">
+    <Grid Background="#F8F9F9">
+        <Border Width="500" Padding="30" Background="White" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="Регистрация" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+                <TextBlock Text="ФИО"/><TextBox Margin="0,6,0,10" Text="{Binding FullName}"/>
+                <TextBlock Text="Email"/><TextBox Margin="0,6,0,10" Text="{Binding Email}"/>
+                <TextBlock Text="Телефон"/><TextBox Margin="0,6,0,10" Text="{Binding Phone}"/>
+                <TextBlock Text="Пароль"/><TextBox Margin="0,6,0,20" Text="{Binding Password}"/>
+                <Button Content="Зарегистрироваться" Command="{Binding RegisterCommand}" Height="36"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
