@@ -93,6 +93,11 @@ namespace himchistka.practic
             TablesTabControl.SelectedItem = ServicesCatalogTab;
         }
 
+        private void CartSectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            TablesTabControl.SelectedItem = CartTab;
+        }
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshView();
