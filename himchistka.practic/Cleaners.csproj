@@ -38,9 +38,11 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\AdminModels.cs" />
 
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SessionService.cs" />
+    <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\RelayCommand.cs" />
 
     <Compile Include="ViewModels\BaseViewModel.cs" />

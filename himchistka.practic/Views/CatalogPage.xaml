@@ -70,8 +70,8 @@
         <Border Grid.Row="3" Background="#FFFFFF" Padding="14,12" BorderBrush="#E4E8F0" BorderThickness="1,1,1,0">
             <UniformGrid Columns="4" Rows="1">
                 <Button Margin="6,0" Content="Заказы" Command="{Binding OpenOrderCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
-                <Button Margin="6,0" Content="Пользователи" Command="{Binding OpenUsersCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
-                <Button Margin="6,0" Content="Товары" Command="{Binding OpenProductsCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Админ кабинет" Command="{Binding OpenUsersCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Услуги" Command="{Binding OpenProductsCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
                 <Button Margin="6,0" Content="Корзина" Command="{Binding OpenCartCommand}" Background="#1F3A5F" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
             </UniformGrid>
         </Border>
