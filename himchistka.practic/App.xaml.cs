@@ -32,6 +32,7 @@ public partial class App : Application
     {
         services.AddSingleton<SessionService>();
         services.AddSingleton<NavigationService>();
+        services.AddSingleton<CartService>();
 
         services.AddSingleton<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();

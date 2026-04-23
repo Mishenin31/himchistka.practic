@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,13 +15,15 @@ public class CatalogPageViewModel : BaseViewModel
 {
     private readonly NavigationService _navigationService;
     private readonly SessionService _sessionService;
+    private readonly CartService _cartService;
     private string _searchText = string.Empty;
     private string _selectedCategory = "Все";
 
-    public CatalogPageViewModel(NavigationService navigationService, SessionService sessionService)
+    public CatalogPageViewModel(NavigationService navigationService, SessionService sessionService, CartService cartService)
     {
         _navigationService = navigationService;
         _sessionService = sessionService;
+        _cartService = cartService;
 
         Products = new ObservableCollection<Product>
         {
@@ -42,7 +43,7 @@ public class CatalogPageViewModel : BaseViewModel
         AddToCartCommand = new RelayCommand(AddToCart);
         OpenCartCommand = new RelayCommand(() => _navigationService.Navigate<CartPage>());
         OpenOrderCommand = new RelayCommand(() => _navigationService.Navigate<OrderPage>());
-        OpenUsersCommand = new RelayCommand(() => _navigationService.Navigate<UsersPage>());
+        OpenUsersCommand = new RelayCommand(OpenAdminCabinet);
         OpenProductsCommand = new RelayCommand(() => _navigationService.Navigate<ProductsPage>());
         LogoutCommand = new RelayCommand(Logout);
     }
@@ -113,8 +114,20 @@ public class CatalogPageViewModel : BaseViewModel
     {
         if (parameter is Product product)
         {
-            MessageBox.Show($"{product.Name} добавлен в корзину");
+            _cartService.Add(product);
+            MessageBox.Show($"Услуга «{product.Name}» добавлена в корзину");
         }
+    }
+
+    private void OpenAdminCabinet()
+    {
+        if (_sessionService.CurrentUser?.IsAdmin != true)
+        {
+            MessageBox.Show("Личный кабинет администратора доступен только администратору.");
+            return;
+        }
+
+        _navigationService.Navigate<UsersPage>();
     }
 
     private void Logout()

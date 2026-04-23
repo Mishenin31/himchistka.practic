@@ -10,18 +10,59 @@
 
         <DockPanel Grid.Row="0" Margin="0,0,0,12" LastChildFill="False">
             <Button Content="Назад" Command="{Binding BackCommand}" Padding="14,6" Background="#1F3A5F" Foreground="White" BorderThickness="0"/>
-            <TextBlock Text="Страница пользователей" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="#1F3A5F"/>
+            <TextBlock Text="Личный кабинет администратора" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="#1F3A5F"/>
         </DockPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" AutoGenerateColumns="False" RowBackground="White" AlternatingRowBackground="#F9FBFF" HeadersVisibility="Column">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="220"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="220"/>
-                <DataGridCheckBoxColumn Header="Админ" Binding="{Binding IsAdmin}" Width="80"/>
-                <DataGridCheckBoxColumn Header="Блок" Binding="{Binding IsBlocked}" Width="80"/>
-                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl Grid.Row="1" Background="White">
+            <TabItem Header="Должности">
+                <Grid Margin="14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Text="{Binding PositionName, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+                        <TextBox Grid.Column="2" Text="{Binding PositionDescription, UpdateSourceTrigger=PropertyChanged}" Height="34" VerticalContentAlignment="Center" Padding="8,0"/>
+                        <StackPanel Grid.Column="4" Orientation="Horizontal">
+                            <Button Content="Создать" Command="{Binding AddPositionCommand}" Margin="0,0,8,0" Padding="10,6"/>
+                            <Button Content="Редактировать" Command="{Binding UpdatePositionCommand}" Margin="0,0,8,0" Padding="10,6"/>
+                            <Button Content="Удалить" Command="{Binding DeletePositionCommand}" Padding="10,6" Background="#E57373" Foreground="White" BorderThickness="0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding Name}" Width="220"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Все заказы">
+                <DataGrid Margin="14" ItemsSource="{Binding Orders}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding Id}" Width="90"/>
+                        <DataGridTextColumn Header="Клиент" Binding="{Binding Client}" Width="180"/>
+                        <DataGridTextColumn Header="Услуги" Binding="{Binding Services}" Width="*"/>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding CreatedAt, StringFormat=d}" Width="110"/>
+                        <DataGridComboBoxColumn Header="Стадия готовности"
+                                                SelectedItemBinding="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding DataContext.StageOptions, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                Width="170"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>
