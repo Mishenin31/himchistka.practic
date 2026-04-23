@@ -19,9 +19,9 @@ public class CatalogPageViewModel : BaseViewModel
 
         Products = new ObservableCollection<Product>
         {
-            new() { Id = 1, Name = "Ноутбук Pro", Description = "16GB RAM, 512GB SSD", Price = 129990, Stock = 8 },
-            new() { Id = 2, Name = "Смартфон X", Description = "AMOLED, 256GB", Price = 79990, Stock = 14 },
-            new() { Id = 3, Name = "Наушники ANC", Description = "Шумоподавление", Price = 19990, Stock = 20 }
+            new() { Id = 1, Name = "Химчистка пальто", Description = "Удаление пятен и отпаривание", Price = 3200, Stock = 14 },
+            new() { Id = 2, Name = "Химчистка костюма", Description = "Деликатная сухая чистка", Price = 2500, Stock = 20 },
+            new() { Id = 3, Name = "Химчистка пуховика", Description = "Глубокая чистка с восстановлением объема", Price = 4200, Stock = 9 }
         };
 
         AddToCartCommand = new RelayCommand(AddToCart);

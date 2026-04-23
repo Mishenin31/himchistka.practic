@@ -3,14 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="OrderPage">
     <Grid Margin="20">
-        <Border Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
+        <Border Grid.Row="1" Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
             <StackPanel>
                 <TextBlock Text="Детали заказа" FontSize="22" FontWeight="Bold" Margin="0,0,0,16"/>
                 <TextBlock Text="Статус:" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Status}" Margin="0,0,0,10"/>
-                <TextBlock Text="Покупатель:" FontWeight="Bold"/>
+                <TextBlock Text="Клиент:" FontWeight="Bold"/>
                 <TextBlock Text="{Binding CustomerInfo}" Margin="0,0,0,10"/>
-                <TextBlock Text="Состав:" FontWeight="Bold"/>
+                <TextBlock Text="Изделия:" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Composition}" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>

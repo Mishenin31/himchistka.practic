@@ -12,6 +12,7 @@ public class RegisterPageViewModel : BaseViewModel
     public RegisterPageViewModel(NavigationService navigationService)
     {
         _navigationService = navigationService;
+        BackCommand = new RelayCommand(() => _navigationService.GoBack(), () => _navigationService.CanGoBack);
         RegisterCommand = new RelayCommand(Register);
     }
 
@@ -20,6 +21,7 @@ public class RegisterPageViewModel : BaseViewModel
     public string Phone { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 
+    public ICommand BackCommand { get; }
     public ICommand RegisterCommand { get; }
 
     private void Register()

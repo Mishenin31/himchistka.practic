@@ -3,18 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="CartPage">
     <Grid Margin="20">
-        <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Товар" Binding="{Binding Product.Name}"/>
+                <DataGridTextColumn Header="Изделие" Binding="{Binding Product.Name}"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}"/>
                 <DataGridTextColumn Header="Сумма" Binding="{Binding Total}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <TextBlock Text="Итого:" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <TextBlock Text="{Binding Total}" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
-            <Button Content="Оформить" Command="{Binding CheckoutCommand}" Padding="14,6"/>
+            <Button Content="Оформить заказ" Command="{Binding CheckoutCommand}" Padding="14,6"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -3,7 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="UsersPage">
     <Grid Margin="20">
-        <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>

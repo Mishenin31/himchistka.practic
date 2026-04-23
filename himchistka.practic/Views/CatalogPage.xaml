@@ -20,8 +20,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="logo" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="каталог" Margin="20,0,0,0" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Text="химчистка" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="каталог услуг" Margin="20,0,0,0" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="3" Text="{Binding UserName}" Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="0,0,12,0"/>
                 <Button Grid.Column="4" Content="выход" Command="{Binding LogoutCommand}" Background="#7B7D7D" Foreground="#EC7063" BorderThickness="0" Padding="12,6"/>
             </Grid>

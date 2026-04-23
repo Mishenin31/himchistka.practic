@@ -23,7 +23,7 @@ public class MainWindowViewModel : BaseViewModel
         };
     }
 
-    public string HeaderTitle => "Система заказов";
+    public string HeaderTitle => "Сервис химчистки";
 
     public string CurrentUserName => _sessionService.CurrentUser?.FullName ?? "Гость";
 
