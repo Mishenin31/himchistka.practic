@@ -2,19 +2,35 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="ProductsPage">
-    <Grid Margin="20">
+    <Grid Margin="20" Background="#F4F6FB">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="True">
+
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+            <Button Content="Назад" Command="{Binding BackCommand}" Padding="14,6" Background="#1F3A5F" Foreground="White" BorderThickness="0"/>
+            <TextBlock Text="Страница товаров" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="#1F3A5F"/>
+        </DockPanel>
+
+        <TextBox Grid.Row="1"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Height="36"
+                 VerticalContentAlignment="Center"
+                 Padding="10,0"
+                 BorderBrush="#CDD6E8"
+                 BorderThickness="1"
+                 Margin="0,0,0,10"
+                 ToolTip="Поиск по названию и описанию"/>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding FilteredProducts}" AutoGenerateColumns="False" CanUserAddRows="True" HeadersVisibility="Column" RowBackground="White" AlternatingRowBackground="#F9FBFF">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Услуга" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="Доступно слотов" Binding="{Binding Stock}"/>
+                <DataGridTextColumn Header="Услуга" Binding="{Binding Name}" Width="180"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="120"/>
+                <DataGridTextColumn Header="Доступно слотов" Binding="{Binding Stock}" Width="140"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

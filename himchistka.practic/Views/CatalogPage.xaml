@@ -3,32 +3,62 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:views="clr-namespace:himchistka.practic.Views"
       Title="CatalogPage">
-    <Grid Background="#F8F9F9">
+    <Grid Background="#F4F6FB">
         <Grid.RowDefinitions>
-            <RowDefinition Height="72"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="76"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#2E4053" Padding="20,0">
-            <Grid VerticalAlignment="Center">
+        <Border Grid.Row="0" Background="#1F3A5F" Padding="22,16" CornerRadius="0,0,18,18">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="химчистка" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="каталог услуг" Margin="20,0,0,0" Foreground="White" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Text="{Binding UserName}" Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="0,0,12,0"/>
-                <Button Grid.Column="4" Content="выход" Command="{Binding LogoutCommand}" Background="#7B7D7D" Foreground="#EC7063" BorderThickness="0" Padding="12,6"/>
+                <StackPanel>
+                    <TextBlock Text="Crystal Clean" Foreground="White" FontWeight="Bold" FontSize="24"/>
+                    <TextBlock Text="Профессиональная химчистка с доставкой" Foreground="#D6E4FF" FontSize="13"/>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="{Binding UserName}" Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="0,0,14,0"/>
+                <Button Grid.Column="2" Content="Выйти" Command="{Binding LogoutCommand}" Padding="14,7" Background="#E8EEF9" Foreground="#1F3A5F" BorderBrush="#D0DCF3" BorderThickness="1"/>
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
-            <ItemsControl ItemsSource="{Binding Products}">
+        <Border Grid.Row="1" Margin="20,16,20,8" Padding="16" Background="White" CornerRadius="14" BorderBrush="#E5E9F2" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         Height="38"
+                         VerticalContentAlignment="Center"
+                         FontSize="14"
+                         Padding="12,0"
+                         BorderBrush="#CDD6E8"
+                         BorderThickness="1"
+                         ToolTip="Введите название услуги или описание"/>
+
+                <ComboBox Grid.Column="2"
+                          ItemsSource="{Binding CategoryOptions}"
+                          SelectedItem="{Binding SelectedCategory}"
+                          Height="38"
+                          VerticalContentAlignment="Center"
+                          FontSize="14"
+                          Padding="8,0"/>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Padding="20,8,20,12">
+            <ItemsControl ItemsSource="{Binding FilteredProducts}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <views:ProductCardView AddToCartCommand="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
@@ -37,42 +67,13 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Border Grid.Row="2" Background="#E5E8E8" Padding="16,10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" Margin="5" Content="заказ" Command="{Binding OpenOrderCommand}" />
-                <Button Grid.Column="1" Margin="5" Content="пользователь" Command="{Binding OpenUsersCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Grid.Column="2" Margin="5" Content="товары" Command="{Binding OpenProductsCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Grid.Column="3" Margin="5" Content="корзина" Command="{Binding OpenCartCommand}" />
-            </Grid>
+        <Border Grid.Row="3" Background="#FFFFFF" Padding="14,12" BorderBrush="#E4E8F0" BorderThickness="1,1,1,0">
+            <UniformGrid Columns="4" Rows="1">
+                <Button Margin="6,0" Content="Заказы" Command="{Binding OpenOrderCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Пользователи" Command="{Binding OpenUsersCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Товары" Command="{Binding OpenProductsCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Корзина" Command="{Binding OpenCartCommand}" Background="#1F3A5F" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
+            </UniformGrid>
         </Border>
     </Grid>
 </Page>
