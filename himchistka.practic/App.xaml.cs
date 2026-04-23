@@ -43,6 +43,7 @@ public partial class App : Application
         services.AddTransient<CartPage>();
         services.AddTransient<ProductsPage>();
         services.AddTransient<UsersPage>();
+        services.AddTransient<UserProfilePage>();
         services.AddTransient<CheckoutPage>();
         services.AddTransient<OrderPage>();
 
@@ -52,6 +53,7 @@ public partial class App : Application
         services.AddTransient<CartPageViewModel>();
         services.AddTransient<ProductsPageViewModel>();
         services.AddTransient<UsersPageViewModel>();
+        services.AddTransient<UserProfilePageViewModel>();
         services.AddTransient<CheckoutPageViewModel>();
         services.AddTransient<OrderPageViewModel>();
     }

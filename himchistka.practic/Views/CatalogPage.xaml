@@ -16,7 +16,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
@@ -24,8 +23,7 @@
                     <TextBlock Text="Профессиональная химчистка с доставкой" Foreground="#D6E4FF" FontSize="13"/>
                 </StackPanel>
 
-                <TextBlock Grid.Column="1" Text="{Binding UserName}" Foreground="White" VerticalAlignment="Center" FontSize="16" Margin="0,0,14,0"/>
-                <Button Grid.Column="2" Content="Выйти" Command="{Binding LogoutCommand}" Padding="14,7" Background="#E8EEF9" Foreground="#1F3A5F" BorderBrush="#D0DCF3" BorderThickness="1"/>
+                <Button Grid.Column="1" Content="Выйти" Command="{Binding LogoutCommand}" Padding="14,7" Background="#E8EEF9" Foreground="#1F3A5F" BorderBrush="#D0DCF3" BorderThickness="1"/>
             </Grid>
         </Border>
 
@@ -68,9 +66,10 @@
         </ScrollViewer>
 
         <Border Grid.Row="3" Background="#FFFFFF" Padding="14,12" BorderBrush="#E4E8F0" BorderThickness="1,1,1,0">
-            <UniformGrid Columns="4" Rows="1">
+            <UniformGrid Columns="5" Rows="1">
                 <Button Margin="6,0" Content="Заказы" Command="{Binding OpenOrderCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
-                <Button Margin="6,0" Content="Админ кабинет" Command="{Binding OpenUsersCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Пользователь" Command="{Binding OpenProfileCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
+                <Button Margin="6,0" Content="Админ панель" Command="{Binding OpenUsersCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold" Visibility="{Binding AdminButtonVisibility}"/>
                 <Button Margin="6,0" Content="Услуги" Command="{Binding OpenProductsCommand}" Background="#ECF2FF" BorderThickness="0" FontWeight="SemiBold"/>
                 <Button Margin="6,0" Content="Корзина" Command="{Binding OpenCartCommand}" Background="#1F3A5F" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
             </UniformGrid>

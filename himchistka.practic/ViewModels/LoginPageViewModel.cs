@@ -45,6 +45,7 @@ public class LoginPageViewModel : BaseViewModel
             Id = 1,
             FullName = isAdmin ? "Администратор" : "Иван Иванов",
             Email = Email,
+            Phone = isAdmin ? "+7 (700) 000-00-01" : "+7 (700) 000-00-02",
             IsAdmin = isAdmin
         };
 

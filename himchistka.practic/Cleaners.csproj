@@ -25,6 +25,7 @@
     <Page Include="Views\CartPage.xaml" />
     <Page Include="Views\ProductsPage.xaml" />
     <Page Include="Views\UsersPage.xaml" />
+    <Page Include="Views\UserProfilePage.xaml" />
     <Page Include="Views\CheckoutPage.xaml" />
     <Page Include="Views\OrderPage.xaml" />
     <Page Include="Views\ProductCardView.xaml" />
@@ -53,6 +54,7 @@
     <Compile Include="ViewModels\CartPageViewModel.cs" />
     <Compile Include="ViewModels\ProductsPageViewModel.cs" />
     <Compile Include="ViewModels\UsersPageViewModel.cs" />
+    <Compile Include="ViewModels\UserProfilePageViewModel.cs" />
     <Compile Include="ViewModels\CheckoutPageViewModel.cs" />
     <Compile Include="ViewModels\OrderPageViewModel.cs" />
   </ItemGroup>

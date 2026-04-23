@@ -43,9 +43,17 @@ public class CatalogPageViewModel : BaseViewModel
         AddToCartCommand = new RelayCommand(AddToCart);
         OpenCartCommand = new RelayCommand(() => _navigationService.Navigate<CartPage>());
         OpenOrderCommand = new RelayCommand(() => _navigationService.Navigate<OrderPage>());
-        OpenUsersCommand = new RelayCommand(OpenAdminCabinet);
+        OpenProfileCommand = new RelayCommand(() => _navigationService.Navigate<UserProfilePage>());
+        OpenUsersCommand = new RelayCommand(OpenAdminCabinet, () => IsAdmin);
         OpenProductsCommand = new RelayCommand(() => _navigationService.Navigate<ProductsPage>());
         LogoutCommand = new RelayCommand(Logout);
+
+        _sessionService.SessionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(IsAdmin));
+            OnPropertyChanged(nameof(AdminButtonVisibility));
+            (OpenUsersCommand as RelayCommand)?.RaiseCanExecuteChanged();
+        };
     }
 
     public ObservableCollection<Product> Products { get; }
@@ -57,9 +65,14 @@ public class CatalogPageViewModel : BaseViewModel
     public ICommand AddToCartCommand { get; }
     public ICommand OpenCartCommand { get; }
     public ICommand OpenOrderCommand { get; }
+    public ICommand OpenProfileCommand { get; }
     public ICommand OpenUsersCommand { get; }
     public ICommand OpenProductsCommand { get; }
     public ICommand LogoutCommand { get; }
+
+    public bool IsAdmin => _sessionService.CurrentUser?.IsAdmin == true;
+
+    public Visibility AdminButtonVisibility => IsAdmin ? Visibility.Visible : Visibility.Collapsed;
 
     public string SearchText
     {
@@ -84,8 +97,6 @@ public class CatalogPageViewModel : BaseViewModel
             }
         }
     }
-
-    public string UserName => _sessionService.CurrentUser?.FullName ?? "Гость";
 
     private bool FilterProduct(object obj)
     {
@@ -121,12 +132,6 @@ public class CatalogPageViewModel : BaseViewModel
 
     private void OpenAdminCabinet()
     {
-        if (_sessionService.CurrentUser?.IsAdmin != true)
-        {
-            MessageBox.Show("Личный кабинет администратора доступен только администратору.");
-            return;
-        }
-
         _navigationService.Navigate<UsersPage>();
     }
 
