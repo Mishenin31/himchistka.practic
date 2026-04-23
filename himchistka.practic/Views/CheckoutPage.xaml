@@ -1,0 +1,16 @@
+<Page x:Class="himchistka.practic.Views.CheckoutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="CheckoutPage">
+    <Grid Margin="20">
+        <Border Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
+            <StackPanel>
+                <TextBlock Text="Оформление заказа" FontSize="22" FontWeight="Bold" Margin="0,0,0,16"/>
+                <TextBlock Text="Адрес"/><TextBox Margin="0,6,0,10" Text="{Binding Address}"/>
+                <TextBlock Text="Способ оплаты"/><TextBox Margin="0,6,0,10" Text="{Binding PaymentMethod}"/>
+                <TextBlock Text="Комментарий"/><TextBox Margin="0,6,0,20" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Comment}"/>
+                <Button Content="Подтвердить" Command="{Binding PlaceOrderCommand}" HorizontalAlignment="Left" Padding="14,6"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

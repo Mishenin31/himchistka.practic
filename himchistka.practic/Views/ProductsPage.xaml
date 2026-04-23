@@ -1,0 +1,16 @@
+<Page x:Class="himchistka.practic.Views.ProductsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="ProductsPage">
+    <Grid Margin="20">
+        <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="Остаток" Binding="{Binding Stock}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
