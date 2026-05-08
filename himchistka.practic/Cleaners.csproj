@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="QRCoder" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <Page Include="Views\CheckoutPage.xaml" />
     <Page Include="Views\OrderPage.xaml" />
     <Page Include="Views\ProductCardView.xaml" />
+    <Page Include="Views\OrderQrWindow.xaml" />
 
     <Compile Include="App.xaml.cs" />
     <Compile Include="MainWindow.xaml.cs" />
