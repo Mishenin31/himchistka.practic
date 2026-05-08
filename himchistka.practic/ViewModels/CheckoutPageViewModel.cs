@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using himchistka.practic.Services;
 using himchistka.practic.Views;
+using QRCoder;
 
 namespace himchistka.practic.ViewModels;
 
@@ -25,7 +26,30 @@ public class CheckoutPageViewModel : BaseViewModel
 
     private void PlaceOrder()
     {
+        var orderInfo = BuildOrderInfo();
+        var qrCodeBytes = GenerateQrCode(orderInfo);
+
+        var qrWindow = new OrderQrWindow(qrCodeBytes);
+        qrWindow.ShowDialog();
+
         MessageBox.Show("Заказ оформлен");
         _navigationService.Navigate<OrderPage>();
+    }
+
+    private string BuildOrderInfo()
+    {
+        return $"Номер: {Guid.NewGuid():N}\n" +
+               $"Дата: {DateTime.Now:dd.MM.yyyy HH:mm}\n" +
+               $"Адрес: {Address}\n" +
+               $"Оплата: {PaymentMethod}\n" +
+               $"Комментарий: {Comment}";
+    }
+
+    private static byte[] GenerateQrCode(string payload)
+    {
+        using var generator = new QRCodeGenerator();
+        using var data = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
+        var pngQrCode = new PngByteQRCode(data);
+        return pngQrCode.GetGraphic(20);
     }
 }
