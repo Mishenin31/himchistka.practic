@@ -2,15 +2,15 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="OrderPage">
-    <Grid Margin="20">
+    <Grid Margin="24" Background="{StaticResource BrandPageBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Padding="14,6" Margin="0,0,0,10"/>
-        <Border Grid.Row="1" Padding="20" Background="White" BorderBrush="#D5DBDB" BorderThickness="1" CornerRadius="6">
+        <Button Content="Назад" Command="{Binding BackCommand}" HorizontalAlignment="Left" Background="#EAF3FF" Foreground="{StaticResource BrandNavyBrush}" BorderBrush="#EAF3FF" Margin="0,0,0,12"/>
+        <Border Grid.Row="1" Padding="26" Background="White" BorderBrush="{StaticResource BrandLineBrush}" BorderThickness="1" CornerRadius="20">
             <StackPanel>
-                <TextBlock Text="Детали заказа" FontSize="22" FontWeight="Bold" Margin="0,0,0,16"/>
+                <TextBlock Text="Детали заказа" FontSize="26" Foreground="{StaticResource BrandNavyBrush}" FontWeight="Bold" Margin="0,0,0,16"/>
                 <TextBlock Text="Статус:" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Status}" Margin="0,0,0,10"/>
                 <TextBlock Text="Клиент:" FontWeight="Bold"/>

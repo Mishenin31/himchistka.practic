@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:views="clr-namespace:himchistka.practic.Views"
       Title="ProductsPage">
-    <Grid Margin="20" Background="#F4F6FB">
+    <Grid Margin="24" Background="{StaticResource BrandPageBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -11,8 +11,8 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
-            <Button Content="Назад" Command="{Binding BackCommand}" Padding="14,6" Background="#1F3A5F" Foreground="White" BorderThickness="0"/>
-            <TextBlock Text="Страница услуг" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="#1F3A5F"/>
+            <Button Content="Назад" Command="{Binding BackCommand}" Background="#EAF3FF" Foreground="{StaticResource BrandNavyBrush}" BorderBrush="#EAF3FF"/>
+            <TextBlock Text="Страница услуг" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource BrandNavyBrush}"/>
         </DockPanel>
 
         <TextBox Grid.Row="1"
@@ -20,7 +20,7 @@
                  Height="36"
                  VerticalContentAlignment="Center"
                  Padding="10,0"
-                 BorderBrush="#CDD6E8"
+                 BorderBrush="{StaticResource BrandLineBrush}"
                  BorderThickness="1"
                  Margin="0,0,0,10"
                  ToolTip="Поиск по названию и описанию"/>
