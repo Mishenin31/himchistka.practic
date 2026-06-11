@@ -2,18 +2,18 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="UsersPage">
-    <Grid Margin="20" Background="#F4F6FB">
+    <Grid Margin="24" Background="{StaticResource BrandPageBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Margin="0,0,0,12" LastChildFill="False">
-            <Button Content="Назад" Command="{Binding BackCommand}" Padding="14,6" Background="#1F3A5F" Foreground="White" BorderThickness="0"/>
-            <TextBlock Text="Личный кабинет администратора" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="#1F3A5F"/>
+            <Button Content="Назад" Command="{Binding BackCommand}" Background="#EAF3FF" Foreground="{StaticResource BrandNavyBrush}" BorderBrush="#EAF3FF"/>
+            <TextBlock Text="Личный кабинет администратора" FontSize="24" FontWeight="Bold" Margin="16,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource BrandNavyBrush}"/>
         </DockPanel>
 
-        <TabControl Grid.Row="1" Background="White">
+        <TabControl Grid.Row="1" Background="White" BorderBrush="{StaticResource BrandLineBrush}">
             <TabItem Header="Должности">
                 <Grid Margin="14">
                     <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
                         <StackPanel Grid.Column="4" Orientation="Horizontal">
                             <Button Content="Создать" Command="{Binding AddPositionCommand}" Margin="0,0,8,0" Padding="10,6"/>
                             <Button Content="Редактировать" Command="{Binding UpdatePositionCommand}" Margin="0,0,8,0" Padding="10,6"/>
-                            <Button Content="Удалить" Command="{Binding DeletePositionCommand}" Padding="10,6" Background="#E57373" Foreground="White" BorderThickness="0"/>
+                            <Button Content="Удалить" Command="{Binding DeletePositionCommand}" Padding="10,6" Background="{StaticResource BrandDangerBrush}" Foreground="White" BorderBrush="{StaticResource BrandDangerBrush}"/>
                         </StackPanel>
                     </Grid>
 
@@ -77,7 +77,7 @@
                         <StackPanel Grid.Column="8" Orientation="Horizontal">
                             <Button Content="Создать" Command="{Binding AddServiceCommand}" Margin="0,0,8,0" Padding="10,6"/>
                             <Button Content="Редактировать" Command="{Binding UpdateServiceCommand}" Margin="0,0,8,0" Padding="10,6"/>
-                            <Button Content="Удалить" Command="{Binding DeleteServiceCommand}" Padding="10,6" Background="#E57373" Foreground="White" BorderThickness="0"/>
+                            <Button Content="Удалить" Command="{Binding DeleteServiceCommand}" Padding="10,6" Background="{StaticResource BrandDangerBrush}" Foreground="White" BorderBrush="{StaticResource BrandDangerBrush}"/>
                         </StackPanel>
                     </Grid>
 
